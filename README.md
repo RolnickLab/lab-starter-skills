@@ -74,6 +74,10 @@ No activation step is needed once installed. The agent matches each skill's `des
 
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), Anthropic's official guide for writing effective skills.
 
+## Versioning
+
+Versions are annotated git tags (`X.Y.Z`, no `v` prefix) documented in [CHANGES.md](CHANGES.md). Install or pin a release with `git clone --branch 0.1.0`. To find the last version that touched one skill: `git describe --tags --abbrev 0 -- $(git rev-list -1 HEAD -- skills/<name>/)`. Maintainers: run `make help`; bump rules and the release workflow are documented at the top of the [Makefile](Makefile).
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
