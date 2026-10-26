@@ -11,7 +11,7 @@ Skills are instructions your agent executes with its full permissions. Treat ins
 - **Read everything before you install.** Every `SKILL.md`, `references/*.md`, and script you copy becomes standing instructions or executable code for your agent. The frontmatter `name` and `description` are injected into the system prompt of every session; the body is loaded whenever the skill triggers. Skim before, not after.
 - **Treat third-party skills as untrusted code.** A skill can steer the agent toward prompt injection, data exfiltration, or misuse of the tools it can reach (shell, files, network, MCP servers). Be extra careful with skills that trigger on untrusted input such as web pages, issues, or emails.
 - **Audit scripts before running them.** `code-review/scripts/run_qa.py` shells out to pre-commit, Makefile targets, and linters. It inherits the agent's permissions, so read any script before letting the agent execute it, and re-read it after updates.
-- **Scope installs narrowly.** Prefer project-level installs over personal ones when testing a new skill, so it cannot affect every repository.
+- **Scope installs narrowly.** Prefer project-level installs over user-level ones when testing a new skill, so it cannot affect every repository.
 - **Fork and pin.** For anything you keep, own a copy in your own repo. Updates then happen only when you review and merge them. Avoid `curl | bash` style installs.
 - This repo is MIT-licensed and meant to be audited line by line. Read the files, delete what you disagree with, and the kit becomes yours.
 
@@ -40,7 +40,7 @@ Skills are discovered by convention: a `skills/` directory where each subdirecto
 
 ### Claude Code
 
-Personal (all projects):
+User-level (all projects):
 
 ```bash
 cp -r skills/* ~/.claude/skills/
@@ -58,8 +58,22 @@ cp -r skills/* .claude/skills/
 
 | Scope | Location |
 |-------|----------|
-| Personal (all projects) | `~/.claude/CLAUDE.md` |
+| User-level (all projects) | `~/.claude/CLAUDE.md` |
 | Per project | `./CLAUDE.md` |
+
+### Merging With an Existing Setup
+
+Already have a `CLAUDE.md` or other skills? Merge deliberately; never overwrite.
+
+- **Inventory first.** List what you have: `ls ~/.claude/skills/ .claude/skills/`, and diff your `CLAUDE.md` sections against `example_CLAUDE.md`. Collisions usually land on communication style, workflow gates, and language conventions.
+- **Name collisions.** Skills are keyed by directory name; a same-named skill shadows silently. Keep one, rename its directory, and update the frontmatter `name` to match.
+- **One source of truth per topic.** When your rules and this repository's skills and instructions contradict (commit policy vs the approval gates, your test framework vs `software-dev` discipline), pick a winner and delete the loser. Contradictory rules produce unpredictable behavior; "the model will figure it out" is not a merge strategy.
+- **Merge, don't concatenate.** Fold `example_CLAUDE.md` in section by section: adopt, adapt, or skip. A rule kept in two places drifts; keep each rule exactly once.
+- **Layer by scope.** Personal taste (tone, verbosity) goes in `~/.claude/CLAUDE.md`, project reality (stack, conventions, paths) in `./CLAUDE.md`. Project instructions take precedence over user-level ones in Claude Code; rely on that instead of restating rules in both files.
+- **Overlap is fine, contradiction is not.** Two skills with similar `description` fields can coexist as long as their rules only differ in style. Genuine contradictions (TDD-first vs prototype-freely) need narrowed `description` triggers, or one skill goes.
+- **Verify after merging.** Run representative prompts and check which rules win, or ask the agent what instructions and skills it sees. Behavior, not files, is the source of truth.
+
+Like mentioned above, it's recommended to first try these instructions inside a project instead of starting at the user-level right away.
 
 ## Usage
 
