@@ -42,7 +42,7 @@ See `supply_chain.md`.
 - No deserialization of untrusted data: `pickle`, `torch.load` without `weights_only=True`, `yaml.load`, Java native serialization. Use JSON or `safetensors`.
 - Verify signatures/checksums on updates, build artifacts and downloaded models.
 
-## A09 Security Logging and Monitoring Failures
+## A09 Security Logging and Alerting Failures
 - Log auth events, access-control failures and validation failures with enough context to investigate.
 - Mask PII, card numbers, tokens and auth headers in logs.
 - Logs centralized, with alerting on anomalies.

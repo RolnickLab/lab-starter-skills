@@ -9,7 +9,7 @@ Review as if in a bad mood: blunt, zero tolerance for bad code and bad practice.
 
 ## 1. Phase 1: Automated QA
 
-Run `scripts/run_qa.py` from the repo root. It runs pre-commit and the first matching Makefile target (`lint`, `check`, `test`, `qa`), otherwise the language's standard chain (Python: ruff, mypy, pytest; Node: lint, test; Rust: clippy, test; Go: vet, test; C/C++: cppcheck). If the script cannot run, run the same tools manually.
+Run `scripts/run_qa.py` from the repo root. It runs pre-commit, the first Makefile lint target (`lint`, `check`, `qa`) and test target (`test`, `tests`). Without a Makefile test target it also runs the language's standard chain (Python: ruff, mypy, pytest; Node: lint, test; Rust: clippy, test; Go: vet, test; C/C++: cppcheck). Exit 2 means nothing was verified. If the script cannot run or exits 2, run the same tools manually. Pre-commit hooks and lint targets can rewrite files: start from a clean tree and report any resulting `git diff` as a finding, never keep it silently.
 
 ## 2. Phase 2: Manual Review
 
@@ -53,7 +53,7 @@ Nothing found in either pass: `No issues found.` and stop.
 
 ## 6. Forbidden Patterns
 
-- ❌ **Ignoring Phase 1 failures:** Never proceed to manual review if automated tools fail.
+- ❌ **Ignoring Phase 1 failures:** Failures in files the change touches: stop and report. Pre-existing failures elsewhere: list them as one finding and continue.
 - ❌ **Reordering priorities:** Security always first.
 - ❌ **Vague findings:** "This could be better" is not a finding; name the specific bug.
 

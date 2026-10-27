@@ -8,17 +8,16 @@ Every script MUST start with:
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'
-	'
+IFS=$'\n\t'
 ```
 
 ### Breakdown
 *   `set -e` (**E**rrexit): The script exits immediately if any command returns a non-zero exit code.
-    *   *Exception:* Commands in `if`, `while`, or `||` constructs are allowed to fail.
-*   `set -u` (**U**nset): Accessing an uninitialized variable causes an error. Prevents `rm -rf $DIR/` where `$DIR` is empty from becoming `rm -rf /`.
+    *   *Exception:* Commands in `if`, `while`, `&&` or `||` constructs are allowed to fail.
+    *   *Pitfalls:* `errexit` is disabled inside a function called from those constructs, and `local x=$(cmd)` hides `cmd`'s failure (declare `local x` first, then assign).
+*   `set -u` (**U**nset): Accessing an unset variable causes an error. It does **not** catch empty variables: `DIR=""; rm -rf "$DIR/"` still targets `/`. Guard deletes with `rm -rf "${DIR:?}/"`.
 *   `set -o pipefail`: In a pipeline `cmd1 | cmd2 | cmd3`, the exit code is the code of the *last* command to fail (or 0 if all succeed). Default Bash behavior is to return the code of `cmd3`, hiding errors in `cmd1`.
-*   `IFS=$'
-	'`: Sets the Internal Field Separator to newline and tab. Prevents iterating over spaces in filenames (e.g., "My File.txt" is treated as one item, not two).
+*   `IFS=$'\n\t'`: Sets the Internal Field Separator to newline and tab. Prevents iterating over spaces in filenames (e.g., "My File.txt" is treated as one item, not two).
 
 ## 2. Robust File Handling
 

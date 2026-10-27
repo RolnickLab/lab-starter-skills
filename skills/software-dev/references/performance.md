@@ -7,7 +7,7 @@
     *   **Why:** A single thread can handle thousands of waiting connections.
 *   **CPU Bound (Number Crunching):**
     *   **Solution:** `multiprocessing` or `ProcessPoolExecutor`.
-    *   **Why:** The Global Interpreter Lock (GIL) prevents threads from running Python bytecode in parallel on one core. You must spawn new processes.
+    *   **Why:** The Global Interpreter Lock (GIL) lets only one thread run Python bytecode at a time, so pure-Python CPU work needs processes. Code that releases the GIL (NumPy, rasterio/GDAL, compression, I/O) parallelizes with threads (`ThreadPoolExecutor`) without copying large arrays between processes.
     *   **Warning:** Process overhead is high. Only use for tasks taking > 100ms.
 
 ## Profiling (Stop Guessing)

@@ -7,7 +7,7 @@ description: Specialized guidance for analyzing errors, bugs, and software failu
 
 ## 1. Core Philosophy
 - **Evidence Over Assumption:** Never guess. Rely on tracebacks, logs, and reproducible state.
-- **Permanent Remediation:** Fix the underlying architectural flaw, not just the symptom.
+- **Permanent Remediation:** Fix the root cause, not just the symptom. If that needs an architectural change, propose it for approval instead of patching the symptom silently.
 - **Occam's Razor:** Prefer the simplest explanation that fits all observed facts.
 
 ## 2. Engineering Preferences

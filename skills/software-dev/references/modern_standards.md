@@ -16,7 +16,7 @@
     *   *Bad:* `os.path.join(data_dir, "file.txt")`
     *   *Good:* `Path(data_dir) / "file.txt"`
 *   **Atomic Writes:** Never write directly to the final file path if the process might fail.
-    *   *Pattern:* Write to `file.tmp`, then `path.replace(file)`. This ensures partial files never corrupt the system.
+    *   *Pattern:* Write to a unique temp file in the target's directory (`tempfile.NamedTemporaryFile(dir=target.parent, delete=False)`), then `Path(tmp.name).replace(target)`. Same directory keeps the rename atomic; a unique name keeps concurrent writers (job arrays) from clobbering each other.
 
 ## Project Management
 *   **Tooling:**

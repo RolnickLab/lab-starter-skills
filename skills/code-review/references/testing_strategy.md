@@ -10,9 +10,9 @@
 - One test covering several unrelated behaviors; names that do not state the expected behavior.
 
 ## Expectations
-- Mostly fast unit tests, fewer integration tests, few E2E tests (Playwright) on critical user flows.
+- Integration tests over a real path (real DB, real files, in-process HTTP) by default; unit tests for crunchy logic (parsers, money/unit math, auth, concurrency, edge cases); few E2E tests (Playwright) on critical user flows.
 - Property-based tests (Hypothesis, fast-check, proptest) for parsers, serializers and invariants (round-trip, idempotence).
-- ~80% line coverage is a guide, not a target.
+- Coverage is a diagnostic for untested branches that matter, never a target.
 - Flaky tests are worse than none: quarantine and fix, never retry-until-green.
 - CI: lint and unit tests on every push, E2E on merge or nightly, red blocks merge.
 - Pre-commit includes secret detection (`gitleaks` or `detect-secrets`).

@@ -33,13 +33,14 @@ Use REST for public-facing APIs or resource-oriented internal services.
 ## 3. Security & Safety
 
 ### Authentication & Authorization
-*   **Stateless:** Use JWT (JSON Web Tokens) for auth state.
-*   **Headers:** `Authorization: Bearer <token>`.
+*   **Service and CLI clients:** `Authorization: Bearer <token>`.
+*   **Browser clients:** `HttpOnly`, `Secure`, `SameSite` session cookie; never tokens in `localStorage`.
+*   **Revocation:** Short-lived JWTs or opaque server-side sessions when access must be revocable.
 *   **Scopes:** Granular permissions (`read:users`, `write:billing`).
 
 ### Input Validation
 Never trust the client.
-*   **Sanitization:** Strip HTML tags to prevent XSS.
+*   **XSS:** Encode on output (auto-escaping templates), not by stripping input. At input, validate type and length.
 *   **Typing:** Ensure IDs are integers/UUIDs.
 *   **Libraries:** Use Pydantic (Python), Zod (TS), or Go Validator.
 

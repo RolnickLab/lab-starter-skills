@@ -64,7 +64,7 @@ class Money:
 
 @dataclass(frozen=True)
 class DiscountPct:
-    value: float  # validated 0–100
+    value: Decimal  # validated 0–100
 ```
 
 ---
@@ -89,7 +89,7 @@ class DiscountPct:
 
 ## Refactoring Rules
 
-1. **One smell, one commit.** Mix of mechanical refactors obscures history and makes bisect harder.
+1. **One smell, one commit.** Mixed refactors obscure history and make bisect harder. Propose each commit; the user decides when to commit.
 2. **Run tests after every extract.** If a rename breaks a test, the test was testing the name, not the behavior; fix the test.
 3. **No behavior changes during refactor.** If you need to change behavior, add a test first, then make it green, then refactor.
 4. **Stop when the tests still pass and the code is clearer.** Refactoring has diminishing returns; perfectionism is a code smell too.

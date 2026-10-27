@@ -18,4 +18,4 @@
 *   **ETC (Easier to Change):** The ultimate metric for design quality.
 *   **Orthogonality:** Minimize side-effects between unrelated components.
 *   **Tracer Bullets:** Build thin, end-to-end skeletons early to validate architecture.
-*   **Broken Windows:** Never leave "hacks" or technical debt in the foundation; fix it immediately.
+*   **Broken Windows:** No unmarked hacks. A deliberate shortcut carries a comment naming its ceiling and upgrade path (`SKILL.md` §0).

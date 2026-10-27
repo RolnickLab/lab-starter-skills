@@ -10,10 +10,10 @@ React favors composition. Don't build massive "God Components" with 50 props.
 Allow users to compose UI parts flexibly.
 
 ```tsx
-// ❌ Bad: One giant component
+// ✅ Default: a props API while callers only pass data
 <Select options={opts} onChange={fn} label="Foo" />
 
-// ✅ Good: Compound Components
+// ✅ When callers must rearrange or restyle parts: Compound Components
 <Select.Root onChange={fn}>
   <Select.Label>Foo</Select.Label>
   <Select.Trigger />
@@ -69,6 +69,7 @@ React re-renders a component when:
 3.  Parent re-renders.
 
 ### Memoization (`useMemo`, `useCallback`)
+*   **React Compiler (1.0+) enabled:** It memoizes automatically; use `useMemo`/`useCallback` only as an escape hatch. The rules below are for projects without it.
 *   **Don't Prematurely Memoize:** It has a cost.
 *   **Do Memoize When:**
     1.  Passing a function/object as a prop to a `React.memo` wrapped child.

@@ -1,6 +1,6 @@
 # Task Document: Annotated Template
 
-Use this template verbatim for every task file produced by the `plan-to-tasks` skill.
+Use this template verbatim for every task file produced in Phase 3 of the planning skill.
 File naming convention: `tasks/TASK-NNN-<slug>.md` (NNN = zero-padded dependency order).
 
 ---
@@ -18,7 +18,7 @@ Good: "Persist user preferences across sessions via a new `preferences` table."
 - **Upstream tasks:** List any TASK-NNN this depends on, and inline the relevant
   interface/schema excerpt so this task is self-contained.
 - **Key files:** Paths to existing files this task touches or extends.
-- **Relevant skills:** List skills whose principles apply (e.g., `tdd`, `systemdesign`).
+- **Relevant skills:** List skills whose principles apply (e.g., `software-dev`, `ml`, `geospatial`).
 
 ## 3. Subtasks
 Granular, atomic steps ordered by dependency. Each step is one logical unit of work.
@@ -66,13 +66,13 @@ Mandatory steps before marking this task done:
 
 1. Verify every AC is checked off in Section 5.
 2. Run all commands in Section 6 and confirm expected output.
-3. Stage and commit with a scoped message:
+3. Update this file: check off completed subtasks and ACs, note any deviations.
+4. Notify the user with a concise summary, propose the commit, and request approval before the next task:
    ```bash
    git add <specific files>
    git commit -m "feat(scope): <what was done> (closes TASK-NNN)"
    ```
-4. Update this file: check off completed subtasks and ACs, note any deviations.
-5. Notify the user with a concise summary and request approval before proceeding to the next task.
+   Commit only when the user says so.
 ```
 
 ---

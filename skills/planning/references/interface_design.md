@@ -31,8 +31,8 @@ A pure function has no side effects and returns the same output for the same inp
 
 ```python
 # Pure: no I/O, no state mutation
-def apply_discount(price: Decimal, discount_pct: float) -> Decimal:
-    return price * Decimal(1 - discount_pct / 100)
+def apply_discount(price: Decimal, discount_pct: Decimal) -> Decimal:
+    return price * (1 - discount_pct / 100)
 
 # Impure: reads from DB, has side effects
 def apply_discount(order_id: int) -> None:

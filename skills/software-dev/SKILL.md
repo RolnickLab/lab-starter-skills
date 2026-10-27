@@ -103,7 +103,7 @@ See: `scaling_patterns.md`
 - **Standards:** Strict type hints everywhere. Pydantic for data validation. `uv` for project management. `pathlib.Path` for all filesystem operations.
 - **CLIs:** When building a CLI tool in Python, ALWAYS use Typer. The only exception is extending an existing CLI directly: if the project already has a CLI elsewhere, any new CLI should use Typer instead.
 - **Architecture:** Dependency Injection via `__init__`. Composition over Inheritance. Layered modules, not flat scripts.
-- **Concurrency:** Choose explicitly: `asyncio` for I/O-bound, `multiprocessing` for CPU-bound. Never mix naively.
+- **Concurrency:** Choose explicitly: `asyncio` for I/O-bound, `multiprocessing` for pure-Python CPU-bound, threads for code that releases the GIL (NumPy, GDAL). Never mix naively.
 - **Testing:** `pytest` with fixtures. `hypothesis` for property-based testing. Strict typing with `mypy`.
 - **Forbidden:** `eval()`/`exec()` on user input, bare `except:`, mutable default arguments, magic numbers not extracted to config.
 

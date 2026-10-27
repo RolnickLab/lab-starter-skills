@@ -10,8 +10,8 @@ Mock only at **system boundaries**, the edges where your code hands control to i
 | Boundary Type | Examples | Mock? |
 |---|---|---|
 | External HTTP / RPC | `httpx`, `requests`, gRPC stubs | Yes |
-| Database / persistence | SQLAlchemy sessions, Redis clients | Yes, use a test DB or in-memory variant |
-| Filesystem | File reads/writes crossing a module boundary | Yes, use `tmp_path` fixture |
+| Database / persistence | SQLAlchemy sessions, Redis clients | **No**: real test DB (container or SQLite) or in-memory variant |
+| Filesystem | File reads/writes crossing a module boundary | **No**: real files in `tmp_path` |
 | Time / randomness | `datetime.now()`, `uuid4()`, `secrets` | Yes, inject or patch at call site |
 | Internal collaborators | Your own `OrderService`, `PriceCalculator` | **No** |
 | Pure functions | Any function with no I/O | **No** |
@@ -39,7 +39,9 @@ async def test_sends_email_on_signup(respx_mock):
 ### Patch at the call site (use sparingly)
 ```python
 # Only when DI is not feasible (e.g., patching stdlib)
-def test_invoice_uses_current_date(freezegun_freeze):
+from freezegun import freeze_time
+
+def test_invoice_uses_current_date():
     with freeze_time("2024-01-15"):
         invoice = Invoice.create(order)
     assert invoice.issued_on == date(2024, 1, 15)
@@ -74,9 +76,9 @@ A high mock-to-assertion ratio (>2:1) signals the system under test is too coupl
 
 ## Decision Tree
 ```
-Does the code call something outside this codebase?
-├── Yes → Mock at that boundary
-└── No → Is it stateful infrastructure (DB, cache)?
-    ├── Yes → Use a real test instance or in-memory variant
+Is it stateful infrastructure you can run in a test (DB, cache, filesystem)?
+├── Yes → Use a real test instance or in-memory variant
+└── No → Does the code call a service outside this codebase?
+    ├── Yes → Mock at that boundary
     └── No → Don't mock; use the real collaborator
 ```

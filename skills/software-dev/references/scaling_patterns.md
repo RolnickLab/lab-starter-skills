@@ -44,7 +44,7 @@ Indexes are the single biggest performance lever.
 
 ### B-Tree (Default)
 *   **Use:** Equality (`=`) and Range (`<`, `>`).
-*   **Note:** Left-prefix rule. Index `(A, B)` supports query on `A` and `(A, B)`, but NOT `B` alone.
+*   **Note:** Left-prefix rule. Index `(A, B)` serves queries on `A` and `(A, B)`. Skip scan (PostgreSQL 18+, MySQL 8.0.13+) can serve `B` alone, efficiently only when `A` has few distinct values.
 
 ### Hash Index
 *   **Use:** Only Equality (`=`). O(1) lookup.

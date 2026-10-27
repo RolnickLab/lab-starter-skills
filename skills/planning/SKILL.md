@@ -14,7 +14,7 @@ description: Three-phase planning workflow (Formal Design → Spec → Tasks) wi
 ## 2. The Three Phases
 
 ### Phase 1: Formal Design Document (FDD)
-Produce a five-section FDD using `references/fdd_template.md`.
+Write a five-section FDD to `docs/agents/planning/<subject>/PLAN.md` using `references/fdd_template.md`.
 
 - **Section 3 (Verification & FMEA)** must name the tracer-bullet integration test written first; this is the Red entry point for Phase 3.
 - **Section 4 (Implementation Steps)** must be sequenced so each step maps to a Red-Green-Refactor cycle.
@@ -43,7 +43,7 @@ Decompose FDD Section 4 into atomic task documents at `docs/agents/planning/<sub
 ## 3. Forbidden Patterns
 - ❌ **Skipping Phases:** No SPEC before FDD approval; no tasks before SPEC approval.
 - ❌ **Vague ACs:** Every AC must have a clear pass/fail state.
-- ❌ **Skipping Red:** Never write implementation before a failing test.
+- ❌ **Skipping Red:** For new testable behavior, never write implementation before a failing test. Config, IaC, docs and exploratory spikes are exempt.
 - ❌ **Refactor on Red:** Only refactor after tests are green.
 - ❌ **Scope Creep in Flight:** Mid-implementation requirement changes require SPEC amendment and re-approval.
 - ❌ **Mocking Internals:** Mock only at system boundaries. See `references/mocking_strategy.md`.

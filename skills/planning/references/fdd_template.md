@@ -78,9 +78,9 @@ chunk of work that can be reviewed independently.
 Do not ask multiple questions.
 
 **Format:**
-> Shall I proceed with Step 1: [brief description of Step 1]?
+> Shall I proceed to Phase 2: SPEC creation?
 
 **Checklist:**
 - [ ] Exactly one question
-- [ ] References Step 1 by name/description so the user knows what they are approving
+- [ ] Names the next phase (SPEC) so the user knows what they are approving
 - [ ] No trailing commentary after the question
