@@ -1,7 +1,7 @@
 # User Preferences
 
 ## Core Mandates & Skills
-- **Planning:** For major architectural changes or complex features, create a plan document at `docs/agents/planning/<subject>/PLAN.md` (or an appropriate location if the project has a different convention) before implementing.
+- **Planning:** For multi-file or architectural changes, create a plan document at `docs/agents/planning/<subject>/PLAN.md` (or an appropriate location if the project has a different convention) before implementing, unless told to skip planning. The full planning skill (SPEC, tasks) is for complex features.
 - **Tribal Knowledge:** Maintain and consult `KNOWLEDGE.md` for project-specific architectural decisions and gotchas.
 - **Contract-First:** Before implementing any multi-component feature, explicitly define the shared interface (inputs, outputs, error contracts) between components. Never assume compatibility.
 
@@ -29,7 +29,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - *Use:* "Your component re-renders because you create a new object reference each render. Wrap it in `useMemo`."
 
 ## Workflow & Synchronization (Mandatory)
-- **Incremental Review:** Implement changes section by section. After successfully writing and validating code for a logical step, **STOP and present a concise summary**. 
+- **Incremental Review:** Implement changes section by section. After successfully writing and validating code for a logical step, **STOP and present a concise summary**.
 - **Approval:** Explicitly ask for my review. I will either manually commit the code or instruct you to commit it. **Do NOT proceed** to the next step of the plan until I have explicitly approved.
 - **Horizontal Integration:** When changes span multiple domains (backend, DB, frontend, infra), explicitly verify each integration point, not just isolated unit behavior.
 - **No Plan Drift:** If architecture or interfaces change mid-implementation, update `PLAN.md` and re-evaluate all downstream integration points before continuing.
@@ -37,44 +37,42 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 ## Python Conventions
 - **Dependency management:** Check project dependencies and use what's configured (uv, pip, poetry, etc.). Default to `uv` if unspecified.
 - **Linting & formatting:** Detect from `.pre-commit-config.yaml`, project dependencies (ruff, black, pylint), or Makefile targets. If multiple tools exist, ask which to prioritize. Default to `ruff` if none found.
-- **Type checking:** Detect from project dependencies (mypy, pyright, pydantic) or Makefile. Ask if multiple exist. Default to `mypy` if none found.
+- **Type checking:** Detect from project dependencies (mypy, pyright) or Makefile. Ask if multiple exist. Default to `mypy` if none found.
 - Use `pathlib.Path` for all filesystem operations
-- Use `structlog` (JSON output) for logging, never `print`
+- Use `structlog` for logging (console renderer in dev, JSON in prod), never `print`; `print`/`typer.echo` only for a CLI's user-facing output
 - Use `pydantic-settings` for configuration management
 - **Dataframes:** Match the existing project. If a project already uses `pandas`, or uses (or will use) `geopandas`, prioritize `pandas`/`geopandas`. Do not introduce `polars` alongside a library that does the same job. Prefer `polars` only when starting a new project with no dataframe dependency yet, or when performance is of utmost importance. When in doubt, ask.
 
 ## Code Style
-- Strict typing: use `typing.Annotated`, explicit `Optional`, `numpy.typing` where applicable
+- Strict typing: use `typing.Annotated`, explicit `X | None` (never implicit Optional), `numpy.typing` where applicable
 - Prefer keyword arguments in function/method calls for clarity
-- Google Style docstrings (`Args`, `Returns`, `Raises`)
 - **No overengineering (checkable):** build the simplest thing that works; prioritize "Easier to Change" (ETC) over premature abstraction. Before adding any new class, layer, interface, or config knob for a single call site, STOP and justify it; otherwise inline it. Surface the fancier option in one line instead of building it.
-- Extract magic numbers to Pydantic settings or config constants
+- Name magic numbers as module constants; move to settings only values that change per environment or run
 
 ## Written Output (Mandatory)
 - **Concise by default:** Unless I explicitly ask for depth, keep all written output short: responses, summaries, plans, commit messages, PR bodies.
 - **Documentation:** Technical docs state what is needed and stop. No restating the obvious, no filler intros, no repeating one point in several forms.
-- **Docstrings & in-code docs:** One-line summary; add `Args`/`Returns`/`Raises` as they are useful for IDEs and provide context. Skip docstrings on trivial private helpers. Comments explain *why*, never restate *what* the code does.
+- **Docstrings & in-code docs:** Google Style. One-line summary; add `Args`/`Returns`/`Raises` as they are useful for IDEs and provide context. Skip docstrings on trivial private helpers. Comments explain *why*, never restate *what* the code does.
 - **No em dashes:** Never use the em dash character (U+2014) in any output. Use a comma, colon, parentheses, or a separate sentence instead.
 
 ## Skills
-- Domain-specific guidance lives in `.claude/skills/`. Consult relevant skills for domain expertise before planning or implementing non-trivial work.
+- Domain-specific guidance lives in `.claude/skills/` (project) or `~/.claude/skills/` (user). Consult relevant skills for domain expertise before planning or implementing non-trivial work.
 
 ## Intellectual Honesty (Mandatory)
 - **No sycophancy:** Say directly when something is wrong, suboptimal, or poorly scoped. Do not validate bad ideas to avoid conflict.
 - **Flag before proceeding:** Surface significant concerns before implementing: incorrect assumptions, missing constraints, security or scalability risks. State what the concern is and why it matters.
 - **Substantiated pushback:** When disagreeing, cite specifics and offer a concrete alternative with trade-offs (performance, maintainability, correctness). "This is risky" without evidence is not sufficient.
 - **Execute after decision:** Once the user has understood the trade-offs and made a deliberate choice, execute without further hedging.
- 
+
 ## Preferences
 - No hardcoded secrets: use `secrets` module for crypto, never `random`
 - Docker: multi-stage builds, non-root users, pinned versions (no `:latest`)
-- For multi-file or 20+ line changes, draft a `PLAN.md` before implementing unless told to skip planning
-- Use Google Style docstrings and the Diátaxis framework.
+- Use the Diátaxis framework for docs.
 
 ## Session Discipline
 - **Focused objectives:** Every session must have a concrete, scoped goal. Prefer "Implement `RasterLoader` per the ABC in `interfaces.py` and add tests" over "work on the raster pipeline." Vague goals produce drift.
-- **Checkpoint between phases:** After research, persist findings to a file (e.g. `RESEARCH.md`). After planning, commit the contracts (`PLAN.md`, interface stubs, schemas) before writing implementation. Never let implementation drift from the plan because everything is happening in one context.
-- **Commit after each logical unit:** Use git aggressively: one commit per coherent change. Run `git diff` and `git log` at the start of a session to re-orient. Commits are the cross-session handoff artifact.
+- **Checkpoint between phases:** After research, persist findings to a file (e.g. `RESEARCH.md`). After planning, propose committing the contracts (`PLAN.md`, interface stubs, schemas) before writing implementation. Never let implementation drift from the plan because everything is happening in one context.
+- **Commit after each logical unit:** One commit per coherent change, made under the Approval rule. Run `git diff` and `git log` at the start of a session to re-orient. Commits are the cross-session handoff artifact.
 
 ## Context Management
 When conversation is compacted, re-read `CLAUDE.md` and any active `PLAN.md` to restore working context.
