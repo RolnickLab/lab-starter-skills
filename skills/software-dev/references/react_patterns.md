@@ -99,8 +99,8 @@ Extract logic from view.
 // components/UserList.tsx
 function UserList() {
   // Logic extracted to hook
-  const { users, sort, setSort } = useUsersList(); 
-  
+  const { users, sort, setSort } = useUsersList();
+
   return (
     <div>
        {/* Pure JSX - no complex logic here */}

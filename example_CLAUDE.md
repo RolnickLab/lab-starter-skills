@@ -41,7 +41,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - Use `pathlib.Path` for all filesystem operations
 - Use `structlog` for logging (console renderer in dev, JSON in prod), never `print`; `print`/`typer.echo` only for a CLI's user-facing output
 - Use `pydantic-settings` for configuration management
-- **Dataframes:** Match the existing project. If a project already uses `pandas`, or uses (or will use) `geopandas`, prioritize `pandas`/`geopandas`. Do not introduce `polars` alongside a library that does the same job. Prefer `polars` only when starting a new project with no dataframe dependency yet, or when performance is of utmost importance. When in doubt, ask.
+- **Dataframes:** Match the existing project. Default to `pandas`/`geopandas`, and always use them for geospatial data. Consider `polars` only for significant gains at scale, never alongside a library that does the same job. When in doubt, ask.
 
 ## Code Style
 - Strict typing: use `typing.Annotated`, explicit `X | None` (never implicit Optional), `numpy.typing` where applicable

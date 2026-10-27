@@ -143,7 +143,7 @@ These apply regardless of language, layer, or domain.
 
 ### Architecture & System Design
 - `principles.md`: SOLID, Clean Architecture, ETC, Ports & Adapters
-- `patterns.md`: GoF patterns, CQRS, Event Sourcing, Saga
+- `patterns.md`: GoF patterns, antipatterns, selection rule
 - `data_systems.md`: Database internals, replication, consistency models
 - `operational.md`: SRE, SLO/SLA, incident response, runbooks
 
