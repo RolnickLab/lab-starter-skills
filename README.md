@@ -88,6 +88,24 @@ No activation step is needed once installed. The agent matches each skill's `des
 
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), Anthropic's official guide for writing effective skills.
 
+## Contributing
+
+Checks run through [pre-commit](https://pre-commit.com/) and only need [uv](https://docs.astral.sh/uv/). Run them before committing:
+
+```bash
+make check
+```
+
+This catches whitespace and end-of-file issues, merge conflict markers, large files, private keys and secrets (gitleaks), em dashes, and zero-width or bidi control characters, which can hide text in a skill that a reviewer cannot see in the diff. Hooks are defined in [.pre-commit-config.yaml](.pre-commit-config.yaml).
+
+To run them on every commit instead:
+
+```bash
+uvx pre-commit@4.7.0 install
+```
+
+To update hooks, run `uvx pre-commit@4.7.0 autoupdate --freeze`. It keeps them pinned to commit SHAs, since tags can be moved.
+
 ## Versioning
 
 Versions are annotated git tags (`X.Y.Z`, no `v` prefix) documented in [CHANGES.md](CHANGES.md). Install or pin a release with `git clone --branch 0.1.0`. To find the last version that touched one skill: `git describe --tags --abbrev 0 -- $(git rev-list -1 HEAD -- skills/<name>/)`. Maintainers: run `make help`; bump rules and the release workflow are documented at the top of the [Makefile](Makefile).

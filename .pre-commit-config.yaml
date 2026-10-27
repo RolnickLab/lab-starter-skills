@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: mixed-line-ending
+      - id: detect-private-key
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: 2ca41cc1372d1e939a6a879f18cdc19fc1cac1ce  # frozen: v8.30.0
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: no-em-dash
+        name: forbid em dash
+        language: pygrep
+        # pygrep compiles a bytes regex, so patterns are UTF-8 byte sequences.
+        entry: '\xe2\x80\x94'  # U+2014
+        types: [text]
+      # Skills are loaded as agent instructions; hidden characters can smuggle
+      # text a reviewer cannot see in the diff.
+      - id: no-hidden-unicode
+        name: forbid zero-width and bidi control chars
+        language: pygrep
+        # U+200B-200F, U+202A-202E, U+2060-2064, U+2066-2069, U+FEFF
+        entry: '\xe2\x80[\x8b-\x8f\xaa-\xae]|\xe2\x81[\xa0-\xa4\xa6-\xa9]|\xef\xbb\xbf'
+        types: [text]

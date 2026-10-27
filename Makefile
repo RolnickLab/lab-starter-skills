@@ -33,8 +33,10 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
 VERSION_RE := ^[0-9]+\.[0-9]+\.[0-9]+$$
+# uvx runs pre-commit in a cached throwaway env: uv is the only requirement.
+PRE_COMMIT := uvx pre-commit@4.7.0
 
-.PHONY: help status bump-major bump-minor bump-patch push
+.PHONY: help status check bump-major bump-minor bump-patch push
 
 help: ## List available targets
 	@grep -hE '^[a-zA-Z0-9 ._-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-32s %s\n", $$1, $$2}'
@@ -49,6 +51,9 @@ status: ## Show the latest version tag and any commits since it
 		echo "Latest tag: $$last"; \
 		git log --oneline $$last..HEAD; \
 	fi
+
+check: ## Run all pre-commit hooks on every file
+	@$(PRE_COMMIT) run --all-files
 
 bump-major bump-minor bump-patch: ## Tag the next version, see bump rules at top
 	@set -euo pipefail; \
