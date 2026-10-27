@@ -23,4 +23,4 @@ Sentinel-2 bands: Green B3, Red B4, Red Edge B5, NIR B8, SWIR1 B11, SWIR2 B12.
 
 ## Resolution Enhancement
 - **Pan-sharpening:** Fuse pan with multispectral (Landsat 15m pan + 30m MS). Visual use; alters spectral values.
-- **Super-resolution:** Model-generated detail is not measured signal; never use for quantitative analysis.
+- **Super-resolution:** Model-generated detail is a prediction with error, not measured signal. Validate it against higher-resolution reference data before quantitative use.

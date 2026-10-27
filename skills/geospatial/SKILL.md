@@ -13,7 +13,7 @@ description: Vector/raster processing, CRS handling, satellite imagery and senso
 
 ## 2. Engineering Preferences
 - **Vector Data:** Prefer GeoParquet over Shapefiles. Use vectorized `geopandas` methods and spatial indexes.
-- **Raster Data:** Output Cloud Optimized GeoTIFF (COG). Use windowed reading for rasters > 100MB to avoid OOM.
+- **Raster Data:** Output Cloud Optimized GeoTIFF (COG). Use windowed or chunked reads for rasters too large in memory once decompressed (threshold: `raster.md`).
 - **Projections:** Never compute distance/area in a geographic CRS (WGS84); project first (`gdf.estimate_utm_crs()` for local work) or use geodesic methods. Details: `crs.md`.
 - **Metadata:** When writing rasters, always copy or define `src.profile` and `transform`.
 - **Sensor Selection:** Defaults: Vegetation → Sentinel-2 Red Edge; Deformation/Clouds → Sentinel-1 SAR; Biomass → LiDAR or L/P-band SAR; High-res Infrastructure → Maxar/Planet. Specs: `sensors.md`.
@@ -21,11 +21,11 @@ description: Vector/raster processing, CRS handling, satellite imagery and senso
 - **Machine Learning:** Tile/chip large rasters. Use spatial cross-validation to prevent data leakage. Use IoU/F1-score over global accuracy for imbalanced classes.
 
 ## 3. Forbidden Patterns
-- ❌ **Eager Loading Massive Data:** Never load multi-GB rasters fully into RAM.
+- ❌ **Eager Loading Massive Data:** Reading a whole raster above the `raster.md` memory threshold.
 - ❌ **Loops over Geometries:** Iterating over vector rows is slow; use vectorized operations.
 - ❌ **Writing Shapefiles:** Use GeoParquet or GeoPackage instead.
 - ❌ **Ignoring CRS:** Performing spatial analysis without aligning and verifying CRS.
-- ❌ **Random Spatial Splits:** Never use random train/test splits on spatial data; use spatial block splitting.
+- ❌ **Random Spatial Splits:** Random train/test splits on autocorrelated data when the model must work in new areas; use spatial block splits there. Match the split to the deployment question. Overlapping chips from one scene never span splits.
 - ❌ **Using TOA for Multi-temporal Analysis:** Always use Surface Reflectance for time-series comparisons.
 
 ## 4. Deep-Dive References

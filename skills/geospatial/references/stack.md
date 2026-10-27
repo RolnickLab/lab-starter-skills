@@ -16,8 +16,7 @@
 | **Point Cloud** | `pdal` | Point cloud pipelines. |
 
 ## Forbidden Patterns
-- **Hardcoded EPSG strings:** `dst_crs = 'EPSG:3857'`.
-  - *Fix:* `from rasterio.crs import CRS; CRS.from_epsg(3857)`
-- **Manual geometry loops:** `[func(x) for x in gdf.geometry]`. Use vectorized methods.
+- **Hardcoded target CRS:** `dst_crs = 'EPSG:3857'` buried in processing code.
+  - *Fix:* Set it in config, or derive it (`gdf.estimate_utm_crs()`).
 - **Ignoring transforms:** Reading a raster into numpy without keeping the `transform` loses its location on Earth.
 - **Pickling spatial objects:** Persist as GeoParquet/GeoTIFF instead.

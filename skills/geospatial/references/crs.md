@@ -15,7 +15,7 @@
 | **3035** | ETRS89 / LAEA Europe | Meters | Equal-area, Europe. |
 
 ## Area, Distance, Buffers
-- **Area:** Equal-area CRS (Albers, LAEA), or geodesic `pyproj.Geod(ellps="WGS84").geometry_area_perimeter()`.
+- **Area:** Equal-area CRS (Albers, LAEA), or geodesic `pyproj.Geod(ellps="WGS84").geometry_area_perimeter()`. Geodesic area is negative for clockwise exterior rings (Shapefile convention): orient rings first with `shapely.geometry.polygon.orient(geom)`.
 - **Distance:** Local: UTM. Regional/global: geodesic `pyproj.Geod.inv()` (Karney, accurate everywhere). Haversine is spherical (~0.5% error); Vincenty can fail near antipodes.
 - **Buffer:** Project to local UTM (`gdf.estimate_utm_crs()`), buffer in meters, project back.
 - Data spanning several UTM zones: use a regional equal-area or custom projection, not one zone.
