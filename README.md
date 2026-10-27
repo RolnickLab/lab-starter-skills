@@ -22,7 +22,7 @@ example_CLAUDE.md          # Top-level instructions (CLAUDE.md) template
 skills/
   code-review/             # Two-phase code review: automated QA script, then blunt manual review
   geospatial/              # Vector/raster processing, CRS, remote sensing, sensors, geospatial ML
-  ml/                      # ML engineering and MLOps: training, evaluation, reproducibility
+  ml/                      # ML research engineering: evaluation under shift, reproducibility, SLURM, partner handoff (TRL 6-7)
   planning/                # Three-phase planning workflow: Formal Design -> Spec -> Tasks, TDD-driven
   root-cause-analysis/     # Disciplined debugging: evidence first, fix root causes not symptoms
   software-dev/            # Full-stack engineering: architecture, backend, frontend, databases, infra, Bash/Python

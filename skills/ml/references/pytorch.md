@@ -1,26 +1,26 @@
 # PyTorch & Deep Learning Standards
 
-## Performance Optimization
-*   **AMP (Automatic Mixed Precision):**
-    *   **Rule:** Use `torch.amp` by default on modern GPUs (Volta+). It reduces VRAM usage and speeds up math (Tensor Cores).
-    *   **Pattern:** `with torch.autocast(device_type='cuda', dtype=torch.float16): ...`
-*   **Compilation:**
-    *   **Rule:** Use `torch.compile()` (PyTorch 2.0+) for production inference models. It fuses kernels and optimizes graphs.
-*   **Data Loading:**
-    *   **Workers:** Set `num_workers` to > 0 (usually CPU count - on SLURM compute clusters: CPU count set by job params, not `os.cpu_count()`).
-    *   **Pinning:** Set `pin_memory=True` to speed up CPU->GPU transfer.
-    *   **Bottleneck Check:** If GPU utilization is < 90%, you are likely CPU-bound in the dataloader.
+## Performance
+*   **AMP:** `torch.autocast(device_type="cuda", dtype=torch.bfloat16)` on Ampere or newer (A100, L40S, H100), no `GradScaler` needed. On older GPUs (V100) use `float16` with `torch.amp.GradScaler`.
+*   **Compilation:** Try `torch.compile()` for long runs and inference, and measure the gain. Skip it while debugging (compile time, harder tracebacks).
+*   **Workers:** Size `num_workers` from the job's CPUs, not `os.cpu_count()` (see `cluster.md`). Set `pin_memory=True`, and `persistent_workers=True` when `num_workers > 0` (it raises at 0).
+*   **Bottleneck check:** GPU utilization well below 90% usually means the loader is the bottleneck. Time the loader alone, or use `torch.profiler`.
+*   **File handles:** Open file, HDF5 and GDAL handles lazily in the worker (in `worker_init_fn` or on first `__getitem__`), never in `Dataset.__init__`. Handles inherited across a fork corrupt reads.
+*   **Storage layout:** Chunked formats (zarr, HDF5, WebDataset shards) over millions of small files. See `cluster.md`.
 
-## Stability & Correctness
-*   **Gradient Clipping:**
-    *   **Rule:** Always clip gradients to prevent explosions. `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`.
-*   **Deterministic Training:**
-    *   **Seeds:** Set seeds for `torch`, `numpy`, and python `random`.
-    *   **CUDNN:** Set `torch.backends.cudnn.benchmark = False` (slower) or accept slight non-determinism.
+## Correctness
+*   **Modes:** `model.train()` for training; `model.eval()` plus `torch.inference_mode()` for evaluation.
+*   **Gradient norm:** Log it. Clip only if training is unstable, with `max_norm` set in config.
+*   **NaN hunting:** `torch.autograd.set_detect_anomaly(True)` while debugging only (slow).
+*   **Tests:** Unit-test a forward and backward pass on a tiny CPU batch: output shapes, no NaN, loss decreases over a few steps.
 
-## LLMs & Transformers
-*   **Attention:** Use `FlashAttention` implementations (available in `torch.nn.functional.scaled_dot_product_attention`).
-*   **Quantization:**
-    *   **Inference:** Use 4-bit (GPTQ/AWQ) for running large models on consumer hardware.
-    *   **Training:** Use QLoRA (Quantized Low-Rank Adaptation) for fine-tuning.
-*   **Safe Tensors:** **MANDATORY**. Do not save models with `pickle` (`torch.save`). Use `safetensors` library to prevent code execution vulnerabilities.
+## Determinism
+*   **Seeds:** Seed `random`, `numpy` and `torch` before building the model or the splits (`lightning.seed_everything` does all three).
+*   **DataLoader:** Pass `generator=torch.Generator().manual_seed(seed)`. Each worker then reseeds `random`, global `numpy` and `torch` from it. RNG objects you build yourself (e.g. `np.random.default_rng()` in `Dataset.__init__`) are copied identically into every worker: reseed them in `worker_init_fn` from `torch.initial_seed()`.
+*   **Bitwise reproducibility (debugging only):** `torch.use_deterministic_algorithms(True)`, `torch.backends.cudnn.benchmark = False`, env `CUBLAS_WORKSPACE_CONFIG=:4096:8`. Slower, and still not portable across GPU types. Report results over multiple seeds instead of relying on bitwise reproducibility.
+
+## Checkpointing
+*   **Contents:** Model, optimizer, scheduler, scaler, epoch/step, RNG states, full config, tracker run ID. Resuming must continue the same run. See `cluster.md` for preemption.
+*   **Loading:** `torch.load(path, weights_only=True)` (default since PyTorch 2.6). Never pass `weights_only=False` on a file you did not create.
+*   **Selection:** Pick the checkpoint on the validation metric, never the test metric.
+*   **Release:** Publish weights as `safetensors` plus the config file, not full training checkpoints. See `operationalization.md`.
