@@ -18,7 +18,7 @@ Skills are instructions your agent executes with its full permissions. Treat ins
 ## Contents
 
 ```
-example_CLAUDE.md          # Top-level instructions (CLAUDE.md) template
+example_CLAUDE.md          # User-level instructions template (~/.claude/CLAUDE.md)
 skills/
   code-review/             # Two-phase code review: automated QA script, then blunt manual review
   geospatial/              # Vector/raster processing, CRS, remote sensing, sensors, geospatial ML
@@ -36,44 +36,62 @@ Each skill is a directory containing:
 
 ## Installation
 
-Skills are discovered by convention: a `skills/` directory where each subdirectory holds one `SKILL.md`. Copy the whole `skills/` folder, or just the skills you want.
+### User-level vs project-level
 
-### Claude Code
+Claude Code reads instructions and skills from two scopes:
 
-User-level (all projects):
+| Scope | Location | Applies to | Shared with | Use it for |
+|-------|----------|------------|-------------|------------|
+| User-level | `~/.claude/` | Every project you open on this machine | Nobody (local to your account) | Personal preferences, and skills you want everywhere |
+| Project-level | `.claude/` and `CLAUDE.md` at the repository root, committed | That repository only | Everyone who clones it | Project facts (stack, commands, paths), and skills the project relies on |
+
+What goes where in this kit:
+
+| File | Scope | Why |
+|------|-------|-----|
+| `example_CLAUDE.md` | **User-level only** | It holds personal preferences (communication style, approval gates, conventions), written in the first person. Claude Code loads every `CLAUDE.md` it finds (user, parent directories, project) and none overrides another, so a project copy duplicates your user-level one, imposes your preferences on collaborators, and drifts. Keep the project `CLAUDE.md` for project facts; `/init` drafts one. |
+| `skills/` | **Either** | User-level: your personal toolkit, available in every project. Project-level: committed with the repository, so every collaborator gets the same skills at the same version. If a skill exists at both levels, the user-level one wins. |
+
+### Instructions (user-level)
+
+Copy `example_CLAUDE.md` to `~/.claude/CLAUDE.md`. Already have one? Merge them instead (see [Merging With an Existing Setup](#merging-with-an-existing-setup)). Repeat on every machine you work on.
 
 ```bash
+mkdir -p ~/.claude
+cp -n example_CLAUDE.md ~/.claude/CLAUDE.md  # -n: never overwrites an existing file
+```
+
+### Skills (user-level or project-level)
+
+Skills are discovered by convention: a `skills/` directory where each subdirectory holds one `SKILL.md`. Copy the whole `skills/` folder, or just the skills you want.
+
+User-level (all your projects):
+
+```bash
+mkdir -p ~/.claude/skills
 cp -r skills/* ~/.claude/skills/
 ```
 
-Project-level (this repo only):
+Project-level (one repository, shared through git):
 
 ```bash
+mkdir -p .claude/skills
 cp -r skills/* .claude/skills/
 ```
-
-### Top-level instructions
-
-`example_CLAUDE.md` holds the standing user/project preferences (communication style, workflow gates, Python conventions, etc.). Rename and place it where Claude Code loads it:
-
-| Scope | Location |
-|-------|----------|
-| User-level (all projects) | `~/.claude/CLAUDE.md` |
-| Per project | `./CLAUDE.md` |
 
 ### Merging With an Existing Setup
 
 Already have a `CLAUDE.md` or other skills? Merge deliberately; never overwrite.
 
 - **Inventory first.** List what you have: `ls ~/.claude/skills/ .claude/skills/`, and diff your `CLAUDE.md` sections against `example_CLAUDE.md`. Collisions usually land on communication style, workflow gates, and language conventions.
-- **Name collisions.** Skills are keyed by directory name; a same-named skill shadows silently. Keep one, rename its directory, and update the frontmatter `name` to match.
+- **Name collisions.** Skills are keyed by directory name; a same-named skill shadows silently, and the user-level one (`~/.claude/skills/`) wins over the project one (`.claude/skills/`). Keep one, rename its directory, and update the frontmatter `name` to match.
 - **One source of truth per topic.** When your rules and this repository's skills and instructions contradict (commit policy vs the approval gates, your test framework vs `software-dev` discipline), pick a winner and delete the loser. Contradictory rules produce unpredictable behavior; "the model will figure it out" is not a merge strategy.
 - **Merge, don't concatenate.** Fold `example_CLAUDE.md` in section by section: adopt, adapt, or skip. A rule kept in two places drifts; keep each rule exactly once.
-- **Layer by scope.** Personal taste (tone, verbosity) goes in `~/.claude/CLAUDE.md`, project reality (stack, conventions, paths) in `./CLAUDE.md`. Project instructions take precedence over user-level ones in Claude Code; rely on that instead of restating rules in both files.
+- **Layer by scope.** Personal taste (tone, verbosity) goes in `~/.claude/CLAUDE.md`, project reality (stack, conventions, paths) in `./CLAUDE.md`. Claude Code loads both (and any `CLAUDE.md` in parent directories) without either overriding the other; when two rules contradict, it may follow either one. Keep each rule in exactly one file.
 - **Overlap is fine, contradiction is not.** Two skills with similar `description` fields can coexist as long as their rules only differ in style. Genuine contradictions (TDD-first vs prototype-freely) need narrowed `description` triggers, or one skill goes.
 - **Verify after merging.** Run representative prompts and check which rules win, or ask the agent what instructions and skills it sees. Behavior, not files, is the source of truth.
 
-Like mentioned above, it's recommended to first try these instructions inside a project instead of starting at the user-level right away.
+As mentioned above, try new skills in a project first instead of installing them at the user level right away.
 
 ## Usage
 

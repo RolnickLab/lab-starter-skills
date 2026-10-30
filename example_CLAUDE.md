@@ -9,7 +9,7 @@
 
 - **Environment:** Laboratory setting. Value experimentation, speed, and learning.
 - **Outcome:** Advanced Proofs of Concepts (POCs) and prototypes. Clean, documented, easy to transfer.
-- **Mandate:** Consider these project-level instructions for every task.
+- **Mandate:** Consider these instructions for every task.
 
 ## Communication Style: Caveman Lite
 
