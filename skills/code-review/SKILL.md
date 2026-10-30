@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Two-phase code review, automated QA then manual security/quality analysis. Blunt, zero-tolerance findings. Output: REJECTED / NEEDS WORK / ACCEPTABLE verdict with numbered issues.
+description: "Two-phase code review, automated QA then manual security/quality analysis. Blunt, zero-tolerance findings. Output: REJECTED / NEEDS WORK / ACCEPTABLE verdict with numbered issues."
 ---
 
 # Code Review

@@ -28,3 +28,10 @@ repos:
         # U+200B-200F, U+202A-202E, U+2060-2064, U+2066-2069, U+FEFF
         entry: '\xe2\x80[\x8b-\x8f\xaa-\xae]|\xe2\x81[\xa0-\xa4\xa6-\xa9]|\xef\xbb\xbf'
         types: [text]
+      - id: check-skills
+        name: check skill frontmatter and references
+        language: python
+        entry: python scripts/check_skills.py
+        additional_dependencies: [pyyaml==6.0.3]
+        files: ^(skills/|scripts/check_skills\.py$)
+        pass_filenames: false
