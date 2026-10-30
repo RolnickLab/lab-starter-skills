@@ -4,6 +4,10 @@
 
 ______________________________________________________________________
 
+## [0.1.0](https://github.com/f-PLT/lab-starter-skills/tree/0.1.0) (2026-10-30)
+
+______________________________________________________________________
+
 - Initial skill set:
   - `example_CLAUDE.md`: top-level instructions template (communication style, workflow gates, Python conventions).
   - `code-review` skill: two-phase review workflow with automated QA script.
