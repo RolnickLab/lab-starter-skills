@@ -12,22 +12,13 @@
 
 # Release workflow:
 #   1. Keep ongoing changes as list items under [Unreleased] in CHANGES.md.
-#   2. At release time, insert the new version header directly below the
-#      [Unreleased] separator so the existing items fall under it:
+#   2. On a clean tree, run the matching target, for example `make bump-minor`.
+#      It inserts the new version header below the [Unreleased] separator so
+#      the pending items fall under it, commits CHANGES.md, and tags that
+#      commit. Add DRY=1 to preview the CHANGES.md diff without writing.
+#   3. Push with `make push`.
 
-#          <!-- (New changes here in list form) -->
-
-#          ## [X.Y.Z](REPOSITORY_URL/tree/X.Y.Z) (YYYY-MM-DD)
-
-#          ______________________________________________________________________
-
-#      Commit the result.
-#   3. Run the matching target, for example `make bump-minor`.
-#      Add DRY=1 to preview without tagging.
-#   4. Push with `make push`.
-
-# The next version is derived from the newest existing tag, so the CHANGES.md
-# header from step 2 must match the target chosen in step 3.
+# The next version is derived from the newest existing tag (0.0.0 if none).
 
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
@@ -55,7 +46,7 @@ status: ## Show the latest version tag and any commits since it
 check: ## Run all pre-commit hooks on every file
 	@$(PRE_COMMIT) run --all-files
 
-bump-major bump-minor bump-patch: ## Tag the next version, see bump rules at top
+bump-major bump-minor bump-patch: ## Release the next version, see workflow at top
 	@set -euo pipefail; \
 	cur=$$(git tag --sort=-v:refname | grep -E '$(VERSION_RE)' | head -1 || true); \
 	cur=$${cur:-0.0.0}; \
@@ -69,15 +60,31 @@ bump-major bump-minor bump-patch: ## Tag the next version, see bump rules at top
 	if git rev-parse -q --verify "refs/tags/$$next" >/dev/null; then \
 		echo "$$next already exists. Did the last release fail to push?"; exit 1; \
 	fi; \
-	if ! grep -q "^## \[$$next\]" CHANGES.md; then \
-		echo "CHANGES.md has no '## [$$next]' header."; \
-		echo "Insert it per the release workflow (step 2) and commit first."; exit 1; \
+	if ! awk '/^## \[Unreleased\]/{u=1; next} u && /^## /{exit} u && /^- /{f=1} END{exit !f}' CHANGES.md; then \
+		echo "No list items under [Unreleased] in CHANGES.md, nothing to release."; exit 1; \
 	fi; \
+	repo=$$(sed -n 's|^## \[Unreleased\](\(.*\)/tree/[^)]*).*|\1|p' CHANGES.md); \
+	if [[ -z $$repo ]]; then \
+		echo "Cannot read the repository URL from the [Unreleased] header in CHANGES.md."; exit 1; \
+	fi; \
+	header="## [$$next]($$repo/tree/$$next) ($$(date +%F))"; \
+	tmp=$$(mktemp); trap 'rm -f "$$tmp"' EXIT; \
+	awk -v header="$$header" ' \
+		/^## \[Unreleased\]/ {u=1} \
+		u && /^___/ {print; print ""; print header; print ""; print; u=0; next} \
+		{print}' CHANGES.md >"$$tmp"; \
 	if [[ -n $${DRY:-} ]]; then \
-		echo "DRY: would tag $$next"; \
-	else \
-		git tag -a "$$next" -m "$$next" && echo "Tagged $$next. Push with: make push"; \
-	fi
+		diff -u CHANGES.md "$$tmp" || true; \
+		echo "DRY: would commit CHANGES.md and tag $$next"; \
+		exit 0; \
+	fi; \
+	if [[ -n $$(git status --porcelain) ]]; then \
+		echo "Working tree is not clean. Commit or stash first."; exit 1; \
+	fi; \
+	cp "$$tmp" CHANGES.md; \
+	git commit -q -m "Release $$next" -- CHANGES.md; \
+	git tag -a "$$next" -m "$$next"; \
+	echo "Committed and tagged $$next. Push with: make push"
 
 push: ## Push the current branch and its annotated tags
 	@git push && git push --follow-tags
