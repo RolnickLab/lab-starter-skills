@@ -4,6 +4,11 @@
 
 ______________________________________________________________________
 
+- CI: pre-commit on PRs and `main`, plus a full-history gitleaks scan.
+- Weekly lychee link check on all Markdown.
+- `check-skills` pre-commit hook: validates `SKILL.md` frontmatter and that `references/` files match their mentions.
+- Fix `code-review` skill frontmatter: quote the description so it parses as YAML.
+
 ## [0.1.0](https://github.com/f-PLT/lab-starter-skills/tree/0.1.0) (2026-10-30)
 
 ______________________________________________________________________
@@ -16,4 +21,3 @@ ______________________________________________________________________
   - `planning` skill: three-phase planning workflow (Formal Design, Spec, Tasks) with TDD.
   - `root-cause-analysis` skill: evidence-based debugging methodology.
   - `software-dev` skill: full-stack engineering standards with Bash and Python deep-dives.
-
