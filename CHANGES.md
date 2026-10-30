@@ -4,6 +4,10 @@
 
 ______________________________________________________________________
 
+## [0.1.1](https://github.com/f-PLT/lab-starter-skills/tree/0.1.1) (2026-10-30)
+
+______________________________________________________________________
+
 - CI: pre-commit on PRs and `main`, plus a full-history gitleaks scan.
 - Weekly lychee link check on all Markdown.
 - `check-skills` pre-commit hook: validates `SKILL.md` frontmatter and that `references/` files match their mentions.
