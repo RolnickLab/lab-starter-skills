@@ -5,7 +5,7 @@
 1. **Skill check + CI workflow**
    - `scripts/check_skills.py`, run as a `local` pre-commit hook (`language: python`, `pyyaml`).
    - `.github/workflows/ci.yml`: `make check` on PRs and pushes to `main`.
-2. **gitleaks job** in `ci.yml`: full-history scan. The pre-commit hook uses `--staged`, so it scans nothing under `run --all-files`.
+2. **gitleaks job** in `ci.yml`: full-history scan. The pre-commit hook uses `--staged`, so it scans nothing under `run --all-files`. Release binary verified by a pinned SHA-256; version kept in sync with the pre-commit rev.
 3. **lychee workflow**: `.github/workflows/links.yml`, weekly cron plus manual dispatch.
 
 ## Skill check contract
