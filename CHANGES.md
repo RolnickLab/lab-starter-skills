@@ -4,6 +4,10 @@
 
 ______________________________________________________________________
 
+## [0.1.2](https://github.com/f-PLT/lab-starter-skills/tree/0.1.2) (2026-10-30)
+
+______________________________________________________________________
+
 - README: correct the merge guidance. Claude Code loads all `CLAUDE.md` files without precedence between them, and a user-level skill shadows a same-named project skill.
 - README: explain user-level vs project-level scope. `example_CLAUDE.md` is user-level only; skills can be installed at either level.
 
