@@ -4,6 +4,8 @@
 
 ______________________________________________________________________
 
+- Fix link to DRAC env creation documentation in ML skills
+
 ## [0.1.2](https://github.com/f-PLT/lab-starter-skills/tree/0.1.2) (2026-10-30)
 
 ______________________________________________________________________

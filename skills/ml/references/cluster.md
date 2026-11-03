@@ -31,7 +31,7 @@ Partitions, quotas, purge policies and hardware change. Check the official docs 
     *   Point `HF_HOME` / `TORCH_HOME` to project or scratch, and set `HF_HUB_OFFLINE=1` in jobs.
     *   Run W&B with `WANDB_MODE=offline`, then `wandb sync` from a login node. `module load httpproxy` exists on some clusters, but W&B can hang behind it.
 *   **Environments on Mila:** `uv` with a committed `uv.lock`; jobs call `uv run python ...`.
-*   **Environments on DRAC:** `uv` works, though DRAC only documents pip. Setup details: [Rolnick lab guide](https://rolnicklab.github.io/best-practices-documentation/sections/clusters/env_creation_drac/).
+*   **Environments on DRAC:** `uv` works, though DRAC only documents pip. Setup details: [Rolnick lab guide](https://rolnicklab.github.io/best-practices-documentation/sections/clusters/howto/env_creation_drac/).
     *   Use the module's Python (`module load python/3.12`), never a uv-downloaded one: set `python-preference = "system"` in `~/.config/uv/uv.toml`.
     *   Create the venv with `virtualenv --no-download .venv` in the project, not `uv venv` (reported to break on DRAC), then `uv sync` into it.
     *   `uv sync` targets the project's `.venv` and ignores an activated venv elsewhere. For a venv at another path, pass `--active` or set `UV_PROJECT_ENVIRONMENT=<path>`.
