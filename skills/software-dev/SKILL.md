@@ -14,7 +14,7 @@ description: Full-stack software engineer covering system design, backend, front
   2. **Stdlib does it?** Use it before custom code. (Explicit §7 language mandates override, e.g. Typer over stdlib `argparse` for Python CLIs.)
   3. **Native platform feature covers it?** DB constraint over app code, CSS over JS, `<input type="date">` over a picker lib.
   4. **Already-installed dependency solves it?** Use it. Never add a new dependency for what a few lines do.
-  5. **Can it be one line?** One line.
+  5. **Can it be a few plain lines?** Write those. Fewer lines means less logic, never compressed logic (see §1 "Readable Over Clever").
   6. **Only then:** the minimum code that works.
 - **Reflex, not research:** Two rungs both work → take the higher one and move on. First lazy solution that works wins.
 - **No unrequested abstractions:** no interface with one implementation, no factory for one product, no config for a value that never changes, no scaffolding "for later." Aligns with the existing ETC and "avoid over-abstracting early" guidance.
@@ -32,6 +32,7 @@ These principles apply across all domains and languages.
 - **Security by Default:** Secrets never in source code. Least-privilege everywhere. Validate all inputs at system boundaries.
 - **Observability:** Logs, metrics, and traces are non-negotiable. Tag all resources for cost tracking. If it isn't instrumented, it doesn't exist.
 - **Explicit Over Implicit:** Prefer explicit types, explicit error handling, and explicit dependency injection over magic and globals.
+- **Readable Over Clever:** Write code a reader follows top to bottom, one step per line. No inline ternaries. Keep branching idiomatic (Pythonic in Python) and avoid `else` where possible: use guard clauses with early `return`/`continue`/`raise`, or assign a default then override it in an `if`. Reach for `else` only when both branches are genuinely symmetric. Don't pack several operations into one line (chained comprehensions, nested calls, walrus tricks). Assign intermediate and final results to well-named variables, then `return` the variable; no logic inside the `return` statement. Aim for efficient and readable, never "smart."
 - **Immutable Infrastructure & Data:** Prefer replacing servers over patching them. Prefer immutable values over mutable shared state.
 - **Contracts First:** Define API contracts, interface stubs, and data schemas before writing implementation code.
 
@@ -137,6 +138,7 @@ These apply regardless of language, layer, or domain.
 - ❌ **Premature Optimization:** Sharding, caching layers, microservices before proven need.
 - ❌ **Mock-Heavy Tests:** Tests whose assertions are mostly about how mocks were called. They verify the test's wiring, not the system.
 - ❌ **Tests That Cannot Fail:** Object-construction tests, getter/setter tests, and assertions that a mock returned its own configured value.
+- ❌ **Clever Code:** Inline ternaries, dense one-liners, and computed `return` expressions. Split into explicit steps (§1 "Readable Over Clever").
 - ❌ **Chesterton's Fence:** Removing legacy code or config without understanding its purpose.
 
 ## 10. Deep-Dive References
