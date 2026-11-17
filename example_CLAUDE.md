@@ -48,6 +48,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - Prefer keyword arguments in function/method calls for clarity
 - **No overengineering (checkable):** build the simplest thing that works; prioritize "Easier to Change" (ETC) over premature abstraction. Before adding any new class, layer, interface, or config knob for a single call site, STOP and justify it; otherwise inline it. Surface the fancier option in one line instead of building it.
 - Name magic numbers as module constants; move to settings only values that change per environment or run
+- **Readable over clever:** write explicit, step-by-step code. No inline ternaries; keep branching Pythonic and avoid `else` where possible (guard clauses with early `return`/`continue`/`raise`, or assign a default then override in an `if`). No one-liners that pack several operations together (chained comprehensions, nested calls, walrus tricks). Assign results to well-named variables, then return the variable; no logic inside `return` statements. Efficient is fine; "smart" is not.
 
 ## Written Output (Mandatory)
 - **Concise by default:** Unless I explicitly ask for depth, keep all written output short: responses, summaries, plans, commit messages, PR bodies.

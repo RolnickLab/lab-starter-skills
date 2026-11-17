@@ -4,6 +4,10 @@
 
 ______________________________________________________________________
 
+- Add readability considerations to the `software-dev` skill
+- Add a `human review focus` section to the `code-review` skill to identify which parts of a review
+  would benefit from a manual review due to their nature.
+
 ## [0.1.3](https://github.com/f-PLT/lab-starter-skills/tree/0.1.3) (2026-11-03)
 
 ______________________________________________________________________
