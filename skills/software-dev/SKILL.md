@@ -42,11 +42,11 @@ These principles apply across all domains and languages.
 - **Cohesion & Coupling:** High cohesion within modules, loose coupling between them.
 - **CAP Theorem:** Explicitly choose consistency/availability trade-offs, never accidentally. Document the rationale.
 - **Layered Design (default):** `Controller` (HTTP boundary) → `Service` (business logic) → `Repository` (data access). Skip layers only with a stated reason; don't force the split on a trivial app.
-- **Auditing:** Evaluate architectures on Coupling, Reliability, Cohesion, and Evolvability. Always produce an actionable refactoring plan.
+- **Auditing:** Evaluate architectures on Coupling, Reliability, Cohesion, and Evolvability. Always produce an actionable refactoring plan; execute it per `refactoring_legacy.md`.
 - **Premature Optimization:** Add complexity (sharding, caching, microservices) only after profiling proves the need; reject-rule in §9.
 - **Chesterton's Fence:** Never remove legacy code without understanding why it exists; full procedure in `operational.md`, reject-rule in §9.
 
-See: `principles.md`, `patterns.md`, `data_systems.md`, `operational.md`
+See: `principles.md`, `patterns.md`, `data_systems.md`, `operational.md`, `refactoring_legacy.md`
 
 ## 3. Backend Engineering
 
@@ -148,6 +148,7 @@ These apply regardless of language, layer, or domain.
 - `patterns.md`: GoF patterns, antipatterns, selection rule
 - `data_systems.md`: Database internals, replication, consistency models
 - `operational.md`: SRE, SLO/SLA, incident response, runbooks
+- `refactoring_legacy.md`: Characterization tests, safe-step migrations, stop conditions
 
 ### Backend
 - `api_design.md`: REST, versioning, error contracts, OpenAPI spec
