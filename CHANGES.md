@@ -23,6 +23,9 @@ ______________________________________________________________________
 - `strict-review`: move the line-level rules to `references/line_review.md`.
 - `strict-review` references: add Rust, Java and Bash, ML artifact loading, path traversal, and
   `infrastructure.md` (Docker, Kubernetes, Terraform/OpenTofu, cloud).
+- `software-dev`: add `references/refactoring_legacy.md` for restructuring existing code:
+  characterization tests, safe-step techniques (parallel change, branch by abstraction, strangler
+  fig), mechanics and stop conditions. Linked from `planning/references/refactoring.md`.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 

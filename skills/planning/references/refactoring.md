@@ -1,5 +1,7 @@
 # Refactoring After Green
 
+For restructuring existing code with weak or no tests, see `software-dev/references/refactoring_legacy.md`.
+
 ## When to Refactor
 Only refactor when all tests are green. A failing test means you are still in the Red or Green phase. Refactoring on red mixes two activities and makes failures harder to diagnose.
 
