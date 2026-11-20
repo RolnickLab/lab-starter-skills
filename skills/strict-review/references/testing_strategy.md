@@ -15,4 +15,3 @@
 - Coverage is a diagnostic for untested branches that matter, never a target.
 - Flaky tests are worse than none: quarantine and fix, never retry-until-green.
 - CI: lint and unit tests on every push, E2E on merge or nightly, red blocks merge.
-- Pre-commit includes secret detection (`gitleaks` or `detect-secrets`).

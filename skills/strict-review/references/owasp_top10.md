@@ -7,6 +7,7 @@ Review checks per category. Source: https://owasp.org/Top10/2025/
 - Authorization enforced server-side, never only in the UI.
 - SSRF: server-side fetches of user-supplied URLs need an allowlist; block internal ranges and cloud metadata (`169.254.169.254`); re-validate after redirects.
 - CORS: no `*` with credentials, no reflecting arbitrary `Origin`.
+- Path traversal (CWE-22): user-controlled paths into file APIs. Resolve the path, then check it stays inside the base directory; `..` and absolute paths are the usual escapes. Archives: `language_specific.md`.
 
 ## A02 Security Misconfiguration
 - `DEBUG`, verbose errors and stack traces off in production. No default accounts or credentials.
@@ -39,7 +40,7 @@ See `supply_chain.md`.
 - Protocol specifics: `auth_protocols.md`.
 
 ## A08 Software or Data Integrity Failures
-- No deserialization of untrusted data: `pickle`, `torch.load` without `weights_only=True`, `yaml.load`, Java native serialization. Use JSON or `safetensors`.
+- No deserialization of untrusted data: `pickle` and its wrappers (ML artifacts: `language_specific.md`), `yaml.load`, Java native serialization. Use JSON or `safetensors`.
 - Verify signatures/checksums on updates, build artifacts and downloaded models.
 
 ## A09 Security Logging and Alerting Failures
