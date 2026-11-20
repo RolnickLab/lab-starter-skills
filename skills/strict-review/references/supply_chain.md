@@ -2,7 +2,8 @@
 
 ## New Dependencies
 - Verify the package exists, is the intended one, and is maintained. Typosquatting (`lodas` vs `lodash`) and AI-hallucinated package names (slopsquatting) are active attack vectors.
-- Flag libraries with no release in >2 years.
+- Flag abandoned libraries: no release in >2 years plus unanswered issues or open security advisories. A stable, finished library with no recent release is fine.
+- Code that runs at install or build (npm `postinstall`, Python sdist `setup.py`, Rust `build.rs` and proc macros): check what a new dependency's hooks do.
 
 ## Pinning & Integrity
 - Lockfile committed: **mandatory** (`uv.lock`, `poetry.lock`, `package-lock.json`, `pnpm-lock.yaml`, `Cargo.lock`, `go.sum`).
@@ -19,3 +20,4 @@
 - Cloud auth via OIDC federation, not long-lived secrets. Secrets masked in logs.
 - `npm ci --ignore-scripts` when install scripts are not needed.
 - SAST and SCA on every PR; fixed versions for runners and build tools.
+- Pre-commit and CI include secret detection (`gitleaks` or `detect-secrets`).

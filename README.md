@@ -10,7 +10,7 @@ Skills are instructions your agent executes with its full permissions. Treat ins
 
 - **Read everything before you install.** Every `SKILL.md`, `references/*.md`, and script you copy becomes standing instructions or executable code for your agent. The frontmatter `name` and `description` are injected into the system prompt of every session; the body is loaded whenever the skill triggers. Skim before, not after.
 - **Treat third-party skills as untrusted code.** A skill can steer the agent toward prompt injection, data exfiltration, or misuse of the tools it can reach (shell, files, network, MCP servers). Be extra careful with skills that trigger on untrusted input such as web pages, issues, or emails.
-- **Audit scripts before running them.** `code-review/scripts/run_qa.py` shells out to pre-commit, Makefile targets, and linters. It inherits the agent's permissions, so read any script before letting the agent execute it, and re-read it after updates.
+- **Know what a skill makes the agent run.** `strict-review` runs the project's own QA (pre-commit, Makefile targets, test suites), which executes repository code with the agent's permissions. For any skill that ships a script, read it before letting the agent execute it, and re-read it after updates.
 - **Scope installs narrowly.** Prefer project-level installs over user-level ones when testing a new skill, so it cannot affect every repository.
 - **Fork and pin.** For anything you keep, own a copy in your own repo. Updates then happen only when you review and merge them. Avoid `curl | bash` style installs.
 - This repo is MIT-licensed and meant to be audited line by line. Read the files, delete what you disagree with, and the kit becomes yours.
@@ -20,7 +20,7 @@ Skills are instructions your agent executes with its full permissions. Treat ins
 ```
 example_CLAUDE.md          # User-level instructions template (~/.claude/CLAUDE.md)
 skills/
-  code-review/             # Two-phase code review: automated QA script, then blunt manual review
+  strict-review/           # Blunt code review of changes of any size: QA, map, architecture, one line-level pass, tiered report
   geospatial/              # Vector/raster processing, CRS, remote sensing, sensors, geospatial ML
   ml/                      # ML research engineering: evaluation under shift, reproducibility, SLURM, partner handoff (TRL 6-7)
   planning/                # Three-phase planning workflow: Formal Design -> Spec -> Tasks, TDD-driven
@@ -32,7 +32,7 @@ Each skill is a directory containing:
 
 - `SKILL.md`: the always-loaded core rules, with frontmatter (`name`, `description`) used for auto-triggering.
 - `references/`: optional deep-dive docs that the SKILL.md links to and the agent reads on demand.
-- `scripts/`: optional helper scripts (e.g. `code-review/scripts/run_qa.py` runs pre-commit, Makefile targets, or per-language lint/type/test chains).
+- `scripts/`: optional helper scripts the agent can run.
 
 ## Installation
 
@@ -95,13 +95,11 @@ As mentioned above, try new skills in a project first instead of installing them
 
 ## Usage
 
-No activation step is needed once installed. The agent matches each skill's `description` against the task and loads that `SKILL.md` automatically; deep-dive references are read only when the SKILL.md points at them. You can also invoke a skill explicitly (for example, ask the agent to "use the code-review skill on this diff").
+No activation step is needed once installed. The agent matches each skill's `description` against the task and loads that `SKILL.md` automatically; deep-dive references are read only when the SKILL.md points at them. You can also invoke a skill explicitly (for example, ask the agent to "use the strict-review skill on this diff").
 
 ## Notes
 
 - The `planning` skill writes artifacts to `docs/agents/planning/<subject>/` in your project. Keep the paths in the skill and in `example_CLAUDE.md` in sync if you change that convention.
-- `code-review/scripts/run_qa.py` needs Python 3 and runs whatever QA tools the target project already has configured.
-
 ## Further reading
 
 - [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices), Anthropic's official guide for writing effective skills.

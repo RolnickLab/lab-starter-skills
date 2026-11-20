@@ -4,6 +4,26 @@
 
 ______________________________________________________________________
 
+- **Breaking:** rename the `code-review` skill to `strict-review`, so it no longer clashes with Claude
+  Code's built-in `/code-review` and the Gemini CLI `code-review` extension. Delete your old copy
+  (`~/.claude/skills/code-review` or `.claude/skills/code-review`) after installing the new one.
+- `strict-review`: replace `scripts/run_qa.py` with a directive: find the project's own QA (CI, task
+  runners, then language defaults), run every check, never rewrite lockfiles, report a `QA:` line. A
+  project with no QA is a NEEDS WORK finding that suggests tools.
+- `strict-review`: add review scope, verdict rules, mandatory failure scenarios for security and
+  correctness findings, severity ordering, and a pre-QA check of changes from other authors.
+- `strict-review`: review changes of any size. Map the change into parts and how they connect, run
+  an architecture review, triage what gets a deep look, then one line-level pass. Over 1000 deep
+  lines, the report flags the scope as too large and recommends follow-up reviews per part, with the
+  QA to reuse; it never splits on its own.
+- `strict-review`: one tiered report: scope, focus, verdict, QA, map, must-fix, follow-up PRs,
+  practices, split plan, findings in detail (design `D` and code `C`, under Critical, High, Medium,
+  Low), recommended follow-up reviews, then what to review manually, last so it can be removed
+  before sharing with the contributor.
+- `strict-review`: move the line-level rules to `references/line_review.md`.
+- `strict-review` references: add Rust, Java and Bash, ML artifact loading, path traversal, and
+  `infrastructure.md` (Docker, Kubernetes, Terraform/OpenTofu, cloud).
+
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 
 ______________________________________________________________________
