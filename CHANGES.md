@@ -34,9 +34,14 @@ ______________________________________________________________________
 - `planning`: add `references/plan_outline_template.md`, a stage lifecycle (start, close, scope
   change), interactive questions with complete-answer options, write-back to upstream artifacts,
   and surfacing agent-made decisions at every phase gate.
-- `planning`: task documents state dependencies on one `**Upstream tasks:**` line (IDs or `none`),
-  so execution tooling can build the dependency graph.
+- `planning`: add an Execution section: pre-flight dependency order from each task's
+  `**Upstream tasks:**` line (IDs or `none`), then analyse, implement, validate, document and an
+  approval gate per task; commits only on user approval. Resume an existing `PLAN.md` instead of
+  starting over.
 - `example_CLAUDE.md`: align plan drift, checkpoint and compaction rules with stages.
+- `example_CLAUDE.md`, `software-dev`, `planning`: call out bad design, smells and outgrown patterns in
+  the code the task touches, even when the code is clean and consistent; the user decides whether to
+  fix, defer or keep.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 

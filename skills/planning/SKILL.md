@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Four-phase planning workflow (PLAN Outline → Formal Design → Spec → Tasks) with TDD woven into every phase. Starts by working with the user on what they really need and how to cut it into stages. Use for complex features, architecture decisions, refactors, or any multi-step implementation.
+description: Four-phase planning workflow (PLAN Outline → Formal Design → Spec → Tasks) with TDD woven into every phase, then task-by-task execution with approval gates. Starts by working with the user on what they really need and how to cut it into stages. Use for complex features, architecture decisions, refactors, or any multi-step implementation, and to execute or resume an existing plan.
 ---
 
 # Planning Skill Instructions
@@ -25,7 +25,9 @@ docs/agents/planning/<subject>/
     SPEC.md            # Phase 2
     tasks/             # Phase 3
 ```
-A single-stage plan still uses `01-<slug>/`, so tooling finds tasks in one place.
+A single-stage plan still uses `01-<slug>/`, so tasks are always in one place.
+
+If `<subject>/PLAN.md` already exists, resume instead of starting over: report the active stage and how far its phases and tasks got, and ask where to continue.
 
 ## 3. The Phases
 
@@ -34,6 +36,7 @@ Work back and forth with the user, then write `PLAN.md` using `references/plan_o
 
 - **Discover:** Cover the problem, who has it, why now, what success looks like, the smallest version that is useful, constraints, what they do not want. Read the relevant code first so questions and options are grounded in it.
 - **Ask interactively:** Use the `AskUserQuestion` tool when available (other agents: use your equivalent question tool, e.g. `ask_question` in Antigravity, `question` in OpenCode): one topic per question, 2-4 concrete options drawn from what you read (recommended one first, marked "(Recommended)"); the tool adds a free-form "Other" automatically. Every option must be a complete answer on its own; never offer an option that only makes sense with extra detail ("Mixed", "Depends", "Describe in Other"). If an answer still needs detail, ask a follow-up question before using it. Send up to 4 questions per call, then follow up on the answers. Skip questions the code or earlier answers already settle. Without the tool, ask the same questions as a numbered text batch.
+- **Report design problems:** While reading the code, flag smells and patterns the project has outgrown or that will block this work. Ask the user whether each goes in this plan, the Parking Lot, or stays as a deliberate choice.
 - **Challenge:** If the request is a solution, ask for the need behind it. Reflect back what you heard ("so the real need is X, not Y?"). Say plainly when an idea seems unnecessary.
 - **Guard scope:** Every idea that is not core goes to Non-goals or the Parking Lot, with the user's agreement.
 - **Stages:** Ask the user whether to deliver in one stage or several, and help them name each one's goal and "done when". Do not split, merge or resize on your own.
@@ -75,12 +78,24 @@ Decompose DESIGN Section 4 into atomic task documents at `<subject>/<NN>-<slug>/
   3. **Refactor**: Clean up on green; consult `references/refactoring.md`.
 - Tasks ordered by dependency; no task assumes a later one is done.
 
-## 4. Stage Lifecycle
+## 4. Execution
+Starts only after Phase 3 of the active stage is approved, on that stage's `tasks/`.
+
+- **Pre-flight:** Order `TASK-NNN-*.md` by each task's `**Upstream tasks:**` line; if a task lacks it, ask. Present an index (number, slug, goal, upstream tasks) and ask: *"Ready to begin with TASK-001?"*
+- **Per task**, in dependency order, only once its upstream tasks are approved:
+  1. **Analyse:** Read the task, its key files, the stage's `DESIGN.md` and `SPEC.md`, and `PLAN.md` Stage Contracts. Ask about anything ambiguous in one batch before coding.
+  2. **Implement:** Section 3 subtasks in order, Red → Green → Refactor for new behavior. Out-of-scope work goes to the Parking Lot. If the work would break a Stage Contract, stop and ask.
+  3. **Validate:** Run every Section 6 command and check each Section 5 AC against the real output. Fix and re-run until all pass; if a fix needs a scope decision, ask.
+  4. **Document:** Check off subtasks and ACs in the task file and note deviations in Section 7. Check off satisfied FRs and ACs in `SPEC.md`, mark the DESIGN step ✅, and write back upstream any change to an earlier artifact.
+  5. **Gate:** Summarize what was done, how each AC was verified, deviations, and the proposed commit (Section 7). Ask: *"TASK-NNN complete. Shall I commit and proceed to TASK-NNN+1: <title>?"* Commit only when the user says so.
+- **Stage end:** List task statuses and confirm each `SPEC.md` AC, then close the stage (Stage Lifecycle).
+
+## 5. Stage Lifecycle
 - **Start:** Only one stage is `active`. Another may run alongside only if `PLAN.md` marks it `parallel-ok` with a reason (no shared interfaces or files) and the user approved it.
 - **Close:** When all tasks of a stage are done, update `PLAN.md`: set status `done`, add learnings to Decisions & Learnings, check the delivered outputs against Stage Contracts, and review later stages and the Parking Lot with the user. Then ask: *"Stage NN is done. Shall I start Phase 1 for stage NN+1-<slug>?"*
 - **Scope change mid-stage:** New ideas go to the Parking Lot. Changing the active stage requires amending `PLAN.md` (and SPEC if already approved) and re-approval.
 
-## 5. Forbidden Patterns
+## 6. Forbidden Patterns
 - ❌ **Skipping Phases:** No DESIGN before PLAN approval; no SPEC before DESIGN approval; no tasks before SPEC approval.
 - ❌ **Designing Ahead:** No DESIGN, SPEC or tasks for a stage that is not active.
 - ❌ **Fuzzy Boundaries:** Starting Phase 1 for a stage while a contract it touches is unclear.
@@ -96,7 +111,7 @@ Decompose DESIGN Section 4 into atomic task documents at `<subject>/<NN>-<slug>/
 - ❌ **Implicit Context:** Referencing "the schema from Task 2" without including the relevant excerpt inline.
 - ❌ **Prose-Only Validation:** "Verify the feature works" is not a test; name the exact command and expected output.
 
-## 6. Deep-Dive References
+## 7. Deep-Dive References
 - `plan_outline_template.md`: PLAN outline template (Phase 0)
 - `fdd_template.md`: Annotated Formal Design Document template (Phase 1)
 - `spec_template.md`: Canonical SPEC template with pre-approval checklist

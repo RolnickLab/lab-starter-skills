@@ -16,7 +16,7 @@ Good: "Persist user preferences across sessions via a new `preferences` table."
 ## 2. Context & References
 - **Plan section:** Link or quote the relevant excerpt from DESIGN.md / SPEC.md.
 - **Upstream tasks:** `TASK-001, TASK-002` or `none`. Exactly this line, comma-separated IDs
-  only; execution tooling (e.g. an `/execute-tasks` command) can read it to build the dependency graph.
+  only; Execution (planning `SKILL.md`) reads it to build the dependency order.
   Then one sub-bullet per upstream task inlining the interface/schema excerpt it provides,
   so this task is self-contained.
 - **Key files:** Paths to existing files this task touches or extends.
