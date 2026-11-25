@@ -23,7 +23,7 @@ skills/
   strict-review/           # Blunt code review of changes of any size: QA, map, architecture, one line-level pass, tiered report
   geospatial/              # Vector/raster processing, CRS, remote sensing, sensors, geospatial ML
   ml/                      # ML research engineering: evaluation under shift, reproducibility, SLURM, partner handoff (TRL 6-7)
-  planning/                # Three-phase planning workflow: Formal Design -> Spec -> Tasks, TDD-driven
+  planning/                # Four-phase planning workflow: PLAN Outline -> Design -> Spec -> Tasks, staged, TDD-driven
   root-cause-analysis/     # Disciplined debugging: evidence first, fix root causes not symptoms
   software-dev/            # Full-stack engineering: architecture, backend, frontend, databases, infra, Bash/Python
 ```

@@ -26,6 +26,17 @@ ______________________________________________________________________
 - `software-dev`: add `references/refactoring_legacy.md` for restructuring existing code:
   characterization tests, safe-step techniques (parallel change, branch by abstraction, strangler
   fig), mechanics and stop conditions. Linked from `planning/references/refactoring.md`.
+- **Breaking:** `planning`: four phases. New Phase 0 (PLAN Outline) discovers the need with the
+  user, guards scope, and cuts the work into stages with explicit stage contracts; one stage is
+  active at a time and the user owns scope. New layout: `<subject>/PLAN.md` plus
+  `<subject>/NN-<slug>/{DESIGN.md, SPEC.md, tasks/}`; the FDD is now `DESIGN.md`. Move existing
+  plans to the new layout.
+- `planning`: add `references/plan_outline_template.md`, a stage lifecycle (start, close, scope
+  change), interactive questions with complete-answer options, write-back to upstream artifacts,
+  and surfacing agent-made decisions at every phase gate.
+- `planning`: task documents state dependencies on one `**Upstream tasks:**` line (IDs or `none`),
+  so execution tooling can build the dependency graph.
+- `example_CLAUDE.md`: align plan drift, checkpoint and compaction rules with stages.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 

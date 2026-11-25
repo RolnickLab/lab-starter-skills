@@ -1,6 +1,6 @@
 # Formal Design Document: Annotated Template
 
-Use this template verbatim whenever the planning skill is active.
+Use this template verbatim for `<subject>/<NN>-<slug>/DESIGN.md` (Phase 1). Scope is the active stage only.
 Copy the five headers exactly, including emoji prefixes.
 
 ---
