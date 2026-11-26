@@ -55,6 +55,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - **Documentation:** Technical docs state what is needed and stop. No restating the obvious, no filler intros, no repeating one point in several forms.
 - **Docstrings & in-code docs:** Google Style. One-line summary; add `Args`/`Returns`/`Raises` as they are useful for IDEs and provide context. Skip docstrings on trivial private helpers. Comments explain *why*, never restate *what* the code does.
 - **No em dashes:** Never use the em dash character (U+2014) in any output. Use a comma, colon, parentheses, or a separate sentence instead.
+- **Visuals:** Text trees and `diff` blocks in the terminal. Past ~25 lines, wider than ~6 columns, or when it needs charts, maps, images or filtering, write a self-contained HTML file instead (local; publish only on request). In Markdown read on GitHub, use Mermaid, tables and `<details>`: GitHub strips scripts, styles and inline SVG. Raw HTML embeds only on docs sites.
 
 ## Skills
 - Domain-specific guidance lives in `.claude/skills/` (project) or `~/.claude/skills/` (user). Consult relevant skills for domain expertise before planning or implementing non-trivial work.
