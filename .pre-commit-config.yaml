@@ -29,7 +29,7 @@ repos:
         entry: '\xe2\x80[\x8b-\x8f\xaa-\xae]|\xe2\x81[\xa0-\xa4\xa6-\xa9]|\xef\xbb\xbf'
         types: [text]
       - id: check-skills
-        name: check skill frontmatter and references
+        name: check skill frontmatter, references and local files
         language: python
         entry: python scripts/check_skills.py
         additional_dependencies: [pyyaml==6.0.3]

@@ -16,6 +16,7 @@ description: Vector/raster processing, CRS handling, satellite imagery and senso
 - **Raster Data:** Output Cloud Optimized GeoTIFF (COG). Use windowed or chunked reads for rasters too large in memory once decompressed (threshold: `raster.md`).
 - **Projections:** Never compute distance/area in a geographic CRS (WGS84); project first (`gdf.estimate_utm_crs()` for local work) or use geodesic methods. Details: `crs.md`.
 - **Metadata:** When writing rasters, always copy or define `src.profile` and `transform`.
+- **Show the pipeline:** When designing or debugging a pipeline, show it as a step list with CRS, resolution, nodata and dtype after each step, so a silent reprojection, resampling or cast is visible.
 - **Sensor Selection:** Defaults: Vegetation → Sentinel-2 Red Edge; Deformation/Clouds → Sentinel-1 SAR; Biomass → LiDAR or L/P-band SAR; High-res Infrastructure → Maxar/Planet. Specs: `sensors.md`.
 - **Preprocessing:** Prefer L2A Surface Reflectance over L1C TOA. Always mask clouds and shadows. Apply product scale/offset before computing indices (`processing.md`).
 - **Machine Learning:** Tile/chip large rasters. Use spatial cross-validation to prevent data leakage. Use IoU/F1-score over global accuracy for imbalanced classes.

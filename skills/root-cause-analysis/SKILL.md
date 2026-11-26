@@ -14,6 +14,7 @@ description: Specialized guidance for analyzing errors, bugs, and software failu
 - **Evidence Gathering:** Extract exact error messages and capture environment state.
 - **Reproduction:** Create a Minimal Reproducible Example (MRE) to isolate the failure.
 - **The 5 Whys:** Distinguish the triggering event (e.g., "invalid input") from the root cause (e.g., "missing input validation").
+- **Show the failing path:** Present the cause as a call tree from entry point to fault in a text block, with real names from the traceback or code. Mark the trigger and the root cause on their lines (`# trigger`, `# root cause`).
 - **Verification:** Always propose a test case alongside the fix to ensure permanent remediation.
 
 ## 3. Forbidden Patterns

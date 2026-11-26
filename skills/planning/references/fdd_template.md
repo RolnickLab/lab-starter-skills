@@ -27,6 +27,7 @@ Reference established principles and be explicit about trade-offs accepted.
 **Target length:** 3–6 bullet points or short paragraphs.
 
 **Checklist:**
+- [ ] Opens with the stage's shape: a `diff` block of the file tree and of the call tree or data flow it changes. Context lines use names from the code; `+`/`-` lines are the change
 - [ ] Names the chosen pattern/strategy (e.g., event-driven, layered, CQRS)
 - [ ] Cites a principle that supports the choice (SOLID, idempotency, CAP theorem)
 - [ ] Acknowledges at least one rejected alternative and why it was rejected

@@ -19,6 +19,10 @@ ______________________________________________________________________
 - `software-dev`: add `references/refactoring_legacy.md` for safely restructuring existing code.
 - `example_CLAUDE.md`, `software-dev`, `planning`: call out bad design and outgrown patterns in the
   code the task touches; the user decides whether to fix, defer or keep.
+- New `project-overview` skill: browsable HTML map of a repo or one part of it.
+- Six skills show structure as small text views (tree diffs, call paths, pipeline steps).
+- `example_CLAUDE.md`: add a `Visuals` rule (terminal text, HTML past terminal scale).
+- `check_skills.py`: also check `assets/` and `scripts/` files a skill mentions.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 
