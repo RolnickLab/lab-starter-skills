@@ -24,6 +24,7 @@ skills/
   geospatial/              # Vector/raster processing, CRS, remote sensing, sensors, geospatial ML
   ml/                      # ML research engineering: evaluation under shift, reproducibility, SLURM, partner handoff (TRL 6-7)
   planning/                # PLAN Outline -> Design -> Spec -> Tasks, then gated execution; staged, TDD-driven
+  project-overview/        # Browsable OVERVIEW.html map of a repo or one part: structure, flows, configs, health
   root-cause-analysis/     # Disciplined debugging: evidence first, fix root causes not symptoms
   software-dev/            # Full-stack engineering: architecture, backend, frontend, databases, infra, Bash/Python
 ```
@@ -33,6 +34,7 @@ Each skill is a directory containing:
 - `SKILL.md`: the always-loaded core rules, with frontmatter (`name`, `description`) used for auto-triggering.
 - `references/`: optional deep-dive docs that the SKILL.md links to and the agent reads on demand.
 - `scripts/`: optional helper scripts the agent can run.
+- `assets/`: optional files the agent copies or fills in, such as templates.
 
 ## Installation
 
