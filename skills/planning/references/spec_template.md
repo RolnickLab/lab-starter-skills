@@ -37,7 +37,7 @@
 
 ## Pre-Approval Checklist (complete before user sign-off)
 
-- [ ] SPEC stored at `docs/agents/planning/<subject>/SPEC.md`, next to `PLAN.md`
+- [ ] SPEC stored at `docs/agents/planning/<subject>/<NN>-<slug>/SPEC.md`, next to `DESIGN.md`
 - [ ] All functional/non-functional requirements are measurable and falsifiable
 - [ ] Every AC has a clear pass/fail state
 - [ ] Every AC maps to at least one step in the Verification Plan

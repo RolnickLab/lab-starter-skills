@@ -1,7 +1,7 @@
 # User Preferences
 
 ## Core Mandates & Skills
-- **Planning:** For multi-file or architectural changes, create a plan document at `docs/agents/planning/<subject>/PLAN.md` (or an appropriate location if the project has a different convention) before implementing, unless told to skip planning. The full planning skill (SPEC, tasks) is for complex features.
+- **Planning:** For multi-file or architectural changes, create a plan document at `docs/agents/planning/<subject>/PLAN.md` (or an appropriate location if the project has a different convention) before implementing, unless told to skip planning. `PLAN.md` follows the planning skill's outline template; the full planning skill (stages, DESIGN, SPEC, tasks) is for complex features.
 - **Tribal Knowledge:** Maintain and consult `KNOWLEDGE.md` for project-specific architectural decisions and gotchas.
 - **Contract-First:** Before implementing any multi-component feature, explicitly define the shared interface (inputs, outputs, error contracts) between components. Never assume compatibility.
 
@@ -32,7 +32,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - **Incremental Review:** Implement changes section by section. After successfully writing and validating code for a logical step, **STOP and present a concise summary**.
 - **Approval:** Explicitly ask for my review. I will either manually commit the code or instruct you to commit it. **Do NOT proceed** to the next step of the plan until I have explicitly approved.
 - **Horizontal Integration:** When changes span multiple domains (backend, DB, frontend, infra), explicitly verify each integration point, not just isolated unit behavior.
-- **No Plan Drift:** If architecture or interfaces change mid-implementation, update `PLAN.md` and re-evaluate all downstream integration points before continuing.
+- **No Plan Drift:** If architecture or interfaces change mid-implementation, update `PLAN.md` (Stage Contracts) and the active stage's `DESIGN.md`/`SPEC.md`, then re-evaluate all downstream integration points before continuing.
 
 ## Python Conventions
 - **Dependency management:** Check project dependencies and use what's configured (uv, pip, poetry, etc.). Default to `uv` if unspecified.
@@ -63,6 +63,7 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 - **No sycophancy:** Say directly when something is wrong, suboptimal, or poorly scoped. Do not validate bad ideas to avoid conflict.
 - **Flag before proceeding:** Surface significant concerns before implementing: incorrect assumptions, missing constraints, security or scalability risks. State what the concern is and why it matters.
 - **Substantiated pushback:** When disagreeing, cite specifics and offer a concrete alternative with trade-offs (performance, maintainability, correctness). "This is risky" without evidence is not sufficient.
+- **Call out bad design:** Matching the existing code keeps the project uniform; it does not mean that code is good. Whether writing, planning or reviewing, flag smells, bad practices, and designs that will be hard to maintain or extend, or that do not fit the scope and scale of the project, module or function. Clean, well-structured code can still be the wrong pattern, and projects outgrow their first patterns. Cover the code the task reads or changes; give issues seen further away one line at the end. Say so plainly, then ask how to handle each: fix now, defer, or keep as a deliberate choice. The decision is the user's; never refactor unasked.
 - **Execute after decision:** Once the user has understood the trade-offs and made a deliberate choice, execute without further hedging.
 
 ## Preferences
@@ -72,8 +73,8 @@ Maintain a terse, high-signal, and professional communication style. Retain full
 
 ## Session Discipline
 - **Focused objectives:** Every session must have a concrete, scoped goal. Prefer "Implement `RasterLoader` per the ABC in `interfaces.py` and add tests" over "work on the raster pipeline." Vague goals produce drift.
-- **Checkpoint between phases:** After research, persist findings to a file (e.g. `RESEARCH.md`). After planning, propose committing the contracts (`PLAN.md`, interface stubs, schemas) before writing implementation. Never let implementation drift from the plan because everything is happening in one context.
+- **Checkpoint between steps:** After research, persist findings to a file (e.g. `RESEARCH.md`). After planning, propose committing the contracts (`PLAN.md`, interface stubs, schemas) before writing implementation. Never let implementation drift from the plan because everything is happening in one context.
 - **Commit after each logical unit:** One commit per coherent change, made under the Approval rule. Run `git diff` and `git log` at the start of a session to re-orient. Commits are the cross-session handoff artifact.
 
 ## Context Management
-When conversation is compacted, re-read `CLAUDE.md` and any active `PLAN.md` to restore working context.
+When conversation is compacted, re-read `CLAUDE.md`, any active `PLAN.md`, and the active stage's `DESIGN.md` to restore working context.

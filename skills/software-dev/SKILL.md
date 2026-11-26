@@ -35,6 +35,7 @@ These principles apply across all domains and languages.
 - **Readable Over Clever:** Write code a reader follows top to bottom, one step per line. No inline ternaries. Keep branching idiomatic (Pythonic in Python) and avoid `else` where possible: use guard clauses with early `return`/`continue`/`raise`, or assign a default then override it in an `if`. Reach for `else` only when both branches are genuinely symmetric. Don't pack several operations into one line (chained comprehensions, nested calls, walrus tricks). Assign intermediate and final results to well-named variables, then `return` the variable; no logic inside the `return` statement. Aim for efficient and readable, never "smart."
 - **Immutable Infrastructure & Data:** Prefer replacing servers over patching them. Prefer immutable values over mutable shared state.
 - **Contracts First:** Define API contracts, interface stubs, and data schemas before writing implementation code.
+- **Uniform, Not Uncritical:** Follow the existing code's conventions, but flag patterns that are hard to maintain or extend, or that the project has outgrown, even when cleanly written. Ask the user whether to fix, defer or keep; never refactor unasked.
 
 ## 2. System Design & Architecture
 

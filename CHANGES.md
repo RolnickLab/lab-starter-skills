@@ -7,25 +7,18 @@ ______________________________________________________________________
 - **Breaking:** rename the `code-review` skill to `strict-review`, so it no longer clashes with Claude
   Code's built-in `/code-review` and the Gemini CLI `code-review` extension. Delete your old copy
   (`~/.claude/skills/code-review` or `.claude/skills/code-review`) after installing the new one.
-- `strict-review`: replace `scripts/run_qa.py` with a directive: find the project's own QA (CI, task
-  runners, then language defaults), run every check, never rewrite lockfiles, report a `QA:` line. A
-  project with no QA is a NEEDS WORK finding that suggests tools.
-- `strict-review`: add review scope, verdict rules, mandatory failure scenarios for security and
-  correctness findings, severity ordering, and a pre-QA check of changes from other authors.
-- `strict-review`: review changes of any size. Map the change into parts and how they connect, run
-  an architecture review, triage what gets a deep look, then one line-level pass. Over 1000 deep
-  lines, the report flags the scope as too large and recommends follow-up reviews per part, with the
-  QA to reuse; it never splits on its own.
-- `strict-review`: one tiered report: scope, focus, verdict, QA, map, must-fix, follow-up PRs,
-  practices, split plan, findings in detail (design `D` and code `C`, under Critical, High, Medium,
-  Low), recommended follow-up reviews, then what to review manually, last so it can be removed
-  before sharing with the contributor.
-- `strict-review`: move the line-level rules to `references/line_review.md`.
-- `strict-review` references: add Rust, Java and Bash, ML artifact loading, path traversal, and
-  `infrastructure.md` (Docker, Kubernetes, Terraform/OpenTofu, cloud).
-- `software-dev`: add `references/refactoring_legacy.md` for restructuring existing code:
-  characterization tests, safe-step techniques (parallel change, branch by abstraction, strangler
-  fig), mechanics and stop conditions. Linked from `planning/references/refactoring.md`.
+- `strict-review`: review changes of any size (change map, architecture review, triage, line-level
+  pass) and write one tiered report. Run the project's own QA instead of `scripts/run_qa.py`. New
+  references for Rust, Java, Bash, ML artifact loading, path traversal and infrastructure.
+- **Breaking:** `planning`: four phases. New Phase 0 (PLAN Outline) scopes the work with the user
+  and cuts it into stages. New layout: `<subject>/PLAN.md` plus
+  `<subject>/NN-<slug>/{DESIGN.md, SPEC.md, tasks/}`; the FDD is now `DESIGN.md`. Move existing
+  plans to the new layout.
+- `planning`: add task-by-task execution in dependency order, with an approval gate per task, and
+  resume an existing `PLAN.md`.
+- `software-dev`: add `references/refactoring_legacy.md` for safely restructuring existing code.
+- `example_CLAUDE.md`, `software-dev`, `planning`: call out bad design and outgrown patterns in the
+  code the task touches; the user decides whether to fix, defer or keep.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 
