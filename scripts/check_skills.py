@@ -1,4 +1,4 @@
-"""Check skill frontmatter and reference files under skills/."""
+"""Check skill frontmatter, reference files and assets/ or scripts/ files under skills/."""
 
 import re
 import sys
@@ -11,6 +11,27 @@ NAME_RE = re.compile(r"^[a-z0-9-]{1,64}$")
 MAX_DESCRIPTION_LEN = 1024
 # Only bare or references/-prefixed names count; paths like docs/.../PLAN.md are examples.
 REFERENCE_RE = re.compile(r"`(?:references/)?([a-z0-9_-]+\.md)`")
+# A skill's own files: an assets/ or scripts/ path ending in a file extension, also inside
+# commands (`python scripts/x.py`). Paths under another directory (`docs/scripts/x.py`,
+# `<skill>/scripts/x.py`) and bare directories (`scripts/`) describe other projects.
+LOCAL_FILE_RE = re.compile(r"(?<![\w./-])((?:assets|scripts)/[\w./-]*\.\w+)")
+
+
+def check_local_files(skill_dir: Path) -> list[str]:
+    """Return assets/ and scripts/ files mentioned in SKILL.md or references/ but missing.
+
+    Unmentioned files are not reported: helper modules, fonts and licenses are legitimately
+    reached only through another file or a directory.
+    """
+    docs = [skill_dir / "SKILL.md", *sorted((skill_dir / "references").glob("*.md"))]
+    mentioned: set[str] = set()
+    for doc in docs:
+        text = doc.read_text(encoding="utf-8")
+        mentioned.update(LOCAL_FILE_RE.findall(text))
+
+    missing = sorted(name for name in mentioned if not (skill_dir / name).is_file())
+    problems = [f"{skill_dir}: mentions missing {name}" for name in missing]
+    return problems
 
 
 def check_skill(skill_dir: Path) -> list[str]:
@@ -55,6 +76,7 @@ def check_skill(skill_dir: Path) -> list[str]:
         f"{skill_dir / 'references' / n}: not mentioned in SKILL.md"
         for n in sorted(present - mentioned)
     ]
+    problems += check_local_files(skill_dir=skill_dir)
     return problems
 
 
