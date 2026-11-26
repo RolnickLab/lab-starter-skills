@@ -19,6 +19,9 @@ ______________________________________________________________________
 - `software-dev`: add `references/refactoring_legacy.md` for safely restructuring existing code.
 - `example_CLAUDE.md`, `software-dev`, `planning`: call out bad design and outgrown patterns in the
   code the task touches; the user decides whether to fix, defer or keep.
+- `planning`, `strict-review`, `root-cause-analysis`, `software-dev`, `geospatial`, `ml`: each
+  shows structure as a small text view (shape diff of file or call tree, failing call path, or
+  pipeline steps with CRS or tensor shape), adapted from humanlayer's `show-me` skill.
 
 ## [0.2.0](https://github.com/f-PLT/lab-starter-skills/tree/0.2.0) (2026-11-17)
 

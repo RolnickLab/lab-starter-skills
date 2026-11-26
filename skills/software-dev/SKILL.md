@@ -46,6 +46,7 @@ These principles apply across all domains and languages.
 - **Auditing:** Evaluate architectures on Coupling, Reliability, Cohesion, and Evolvability. Always produce an actionable refactoring plan; execute it per `refactoring_legacy.md`.
 - **Premature Optimization:** Add complexity (sharding, caching, microservices) only after profiling proves the need; reject-rule in §9.
 - **Chesterton's Fence:** Never remove legacy code without understanding why it exists; full procedure in `operational.md`, reject-rule in §9.
+- **Show the shape:** Present an architectural change as a `diff` of the file tree or call tree (`+`/`-` lines), existing names from the code. Plain-text trees in the terminal; Mermaid only in docs files that render it.
 
 See: `principles.md`, `patterns.md`, `data_systems.md`, `operational.md`, `refactoring_legacy.md`
 

@@ -23,6 +23,7 @@ description: ML research engineering for climate, biodiversity and Earth science
   3. Simple baseline beats chance.
   4. Full job passes a short 1-GPU smoke test.
 - **Performance:** Vectorize with framework ops, use AMP and efficient data loading. See `pytorch.md`.
+- **Show the pipeline:** When designing or debugging a data or training pipeline, show it as a step list with tensor shape, dtype and split after each step, so shape bugs and statistics fit across splits are visible.
 
 ## 3. Forbidden Patterns
 - ❌ **Moving the goalposts:** Changing the split, metric, test data or evaluation code to improve a result. Report the bad result and stop. A real bug in one of them: get user approval, fix it, re-run every method.

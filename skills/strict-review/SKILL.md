@@ -112,7 +112,7 @@ One report. The contributor gets it with `What should be manually reviewed` remo
 4. Verdict, then `deep review covered X of Y lines.`
 5. `QA:` every check as `<tool> [<where it was found>] <result>`, e.g. `QA: ruff [pre-commit] pass; mypy [default] pass; pytest [make test] FAIL (3 failed); cppcheck [default] skipped (not installed).` A check left out reads as passed, so list all of them. Nothing ran: `QA: none run (<reason>, e.g. no CI, task runner or tool found).`
 6. `Solid:` one line naming what is genuinely good, specific to this change. No filler.
-7. `Map:` table: part, files, lines, role, what it does and connects to, depth.
+7. `Map:` table: part, files, lines, role, what it does and connects to, depth. Below it, a `diff` block of the call tree or file tree the deep parts change: at most 20 lines, names from the diff.
 8. `Must fix before merge:` every Critical and High finding, every skim blocker, and Medium findings that get costlier after merge (interfaces, data formats, shared defaults, public APIs).
 9. `Follow-up PRs:` remaining findings grouped into PR-sized fixes.
 10. `Practices:` §7 habits found, each with why it hurts later.
