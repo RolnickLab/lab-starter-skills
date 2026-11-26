@@ -4,6 +4,10 @@
 
 ______________________________________________________________________
 
+## [1.0.0](https://github.com/f-PLT/lab-starter-skills/tree/1.0.0) (2026-11-26)
+
+______________________________________________________________________
+
 - **Breaking:** rename the `code-review` skill to `strict-review`, so it no longer clashes with Claude
   Code's built-in `/code-review` and the Gemini CLI `code-review` extension. Delete your old copy
   (`~/.claude/skills/code-review` or `.claude/skills/code-review`) after installing the new one.
